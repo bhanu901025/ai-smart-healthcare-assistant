@@ -1,0 +1,35 @@
+[
+  {
+    "id": "usr-01",
+    "name": "Alexander Wright",
+    "email": "alex.patient@healthpulse.ai",
+    "password": "password123",
+    "role": "patient",
+    "age": 34,
+    "gender": "Male",
+    "phone": "+1 (555) 234-8901",
+    "bloodGroup": "O+",
+    "allergies": "Penicillin, Peanuts",
+    "emergencyContact": "Sarah Wright (+1 555-902-1144)",
+    "healthScore": 88,
+    "vitals": {
+      "bloodPressure": "120/80 mmHg",
+      "heartRate": "72 bpm",
+      "spO2": "98%",
+      "bloodGlucose": "95 mg/dL",
+      "bmi": "23.4 (Normal)"
+    }
+  },
+  {
+    "id": "usr-02",
+    "name": "Dr. Sarah Jenkins",
+    "email": "dr.jenkins@healthpulse.ai",
+    "password": "password123",
+    "role": "doctor",
+    "specialty": "Pulmonologist",
+    "hospital": "Metro Heart & Lung Institute",
+    "licenseNo": "MED-NY-89412",
+    "experience": 14,
+    "rating": 4.9
+  }
+]

@@ -1,6 +1,6 @@
 /**
  * Main Application Orchestrator
- * Coordinates tab switching, notifications, statistics loading, and global initialization.
+ * Coordinates tab switching, authentication state, charts, notifications, and dashboard metrics.
  */
 
 // Global Tab Switcher
@@ -22,10 +22,14 @@ function switchTab(tabId) {
   }
 
   // Lazy-load relevant data per tab
-  if (tabId === 'appointments') {
+  if (tabId === 'dashboard') {
+    if (window.renderDashboardCharts) window.renderDashboardCharts();
+  } else if (tabId === 'appointments') {
     loadOptimizedSlots();
-  } else if (tabId === 'doctors') {
-    loadDoctorDirectory();
+  } else if (tabId === 'records') {
+    loadPatientRecords();
+  } else if (tabId === 'doctor-portal') {
+    loadDoctorTriageQueue();
   } else if (tabId === 'my-bookings') {
     loadMyAppointments();
   }
@@ -64,9 +68,6 @@ async function loadDashboardStats() {
     const res = await fetch('/api/stats');
     const data = await res.json();
     if (data.success && data.stats) {
-      const accEl = document.getElementById('stat-accuracy');
-      if (accEl) accEl.textContent = data.stats.aiAccuracy;
-
       const navCount = document.getElementById('nav-booking-count');
       if (navCount) navCount.textContent = data.stats.confirmedAppointments;
     }
@@ -77,8 +78,16 @@ async function loadDashboardStats() {
 
 // Global App Initialization
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('HealthPulse AI Client App Initializing...');
+  console.log('HealthPulse Enterprise AI Initializing...');
   
+  // Initialize user session & auth UI
+  if (window.updateAuthUI) updateAuthUI();
+
+  // Initialize visual intelligence charts
+  if (window.renderDashboardCharts) {
+    setTimeout(() => window.renderDashboardCharts(), 150);
+  }
+
   // Initialize symptoms catalog
   initSymptomSelector();
   

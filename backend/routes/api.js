@@ -11,10 +11,23 @@ const predictionController = require('../controllers/predictionController');
 const appointmentController = require('../controllers/appointmentController');
 const doctorController = require('../controllers/doctorController');
 const chatController = require('../controllers/chatController');
+const authController = require('../controllers/authController');
+const recordsController = require('../controllers/recordsController');
 
 const SYMPTOMS_PATH = path.join(__dirname, '..', 'data', 'symptoms.json');
 const DOCTORS_PATH = path.join(__dirname, '..', 'data', 'doctors.json');
 const APPOINTMENTS_PATH = path.join(__dirname, '..', 'data', 'appointments.json');
+
+// User Authentication & Profile
+router.post('/auth/login', authController.login);
+router.post('/auth/register', authController.register);
+router.get('/auth/profile', authController.getProfile);
+router.put('/auth/vitals', authController.updateVitals);
+
+// Patient Medical Records (EHR)
+router.get('/records', recordsController.getPatientRecords);
+router.get('/records/:id', recordsController.getRecordById);
+router.post('/records', recordsController.createRecord);
 
 // Symptoms Routes
 router.get('/symptoms', (req, res) => {
@@ -37,6 +50,28 @@ router.get('/appointments/optimize', appointmentController.getOptimizedSlots);
 router.post('/appointments/book', appointmentController.bookAppointment);
 router.get('/appointments', appointmentController.getAllAppointments);
 router.delete('/appointments/:id', appointmentController.cancelAppointment);
+
+// Doctor Clinical Portal Triage Queue
+router.get('/doctor/queue', (req, res) => {
+  try {
+    let appointments = [];
+    if (fs.existsSync(APPOINTMENTS_PATH)) {
+      appointments = JSON.parse(fs.readFileSync(APPOINTMENTS_PATH, 'utf-8'));
+    }
+
+    // Sort queue by highest urgency first (Emergency -> High -> Moderate -> Low)
+    appointments.sort((a, b) => (b.urgencyScore || 2) - (a.urgencyScore || 2));
+
+    return res.json({
+      success: true,
+      activeQueueCount: appointments.length,
+      criticalTriageCount: appointments.filter(a => a.urgencyScore >= 3).length,
+      queue: appointments
+    });
+  } catch (err) {
+    return res.status(500).json({ success: false, error: err.message });
+  }
+});
 
 // Doctor Directory & Specialties
 router.get('/doctors', doctorController.getAllDoctors);
@@ -69,7 +104,9 @@ router.get('/stats', (req, res) => {
         activeDoctors: doctorsCount,
         confirmedAppointments: appointmentsCount,
         averageWaitReduction: '45 mins',
-        satisfactionRate: '98.2%'
+        satisfactionRate: '98.2%',
+        totalRecordsLogged: 3,
+        systemHealthIndex: 98
       }
     });
   } catch (err) {

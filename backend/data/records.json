@@ -1,0 +1,77 @@
+[
+  {
+    "id": "REC-2026-001",
+    "patientId": "usr-01",
+    "patientName": "Alexander Wright",
+    "date": "2026-09-18",
+    "doctorName": "Dr. Sarah Jenkins",
+    "specialty": "Pulmonologist",
+    "hospital": "Metro Heart & Lung Institute",
+    "diagnosis": "Mild Bronchial Hyperresponsiveness",
+    "severity": "Moderate",
+    "urgencyScore": 2,
+    "symptomsReported": ["cough", "mild breathlessness", "chest tightness"],
+    "prescriptions": [
+      { "medicine": "Levosalbutamol Inhaler (50mcg)", "dosage": "2 puffs as needed", "duration": "14 days" },
+      { "medicine": "Montelukast Sodium (10mg)", "dosage": "1 tablet before bedtime", "duration": "30 days" }
+    ],
+    "vitalSigns": {
+      "bloodPressure": "122/82 mmHg",
+      "heartRate": "76 bpm",
+      "spO2": "97%",
+      "temperature": "98.6 °F"
+    },
+    "clinicalNotes": "Spirometry indicates reversible airway obstruction. Patient advised to avoid cold air exposure and track peak flow daily. Follow-up scheduled in 4 weeks.",
+    "status": "Completed"
+  },
+  {
+    "id": "REC-2026-002",
+    "patientId": "usr-01",
+    "patientName": "Alexander Wright",
+    "date": "2026-08-04",
+    "doctorName": "Dr. Marcus Vance",
+    "specialty": "General Physician",
+    "hospital": "City Care Multi-Specialty Clinic",
+    "diagnosis": "Acute Seasonal Viral Rhinitis",
+    "severity": "Low",
+    "urgencyScore": 1,
+    "symptomsReported": ["continuous sneezing", "headache", "mild fever", "fatigue"],
+    "prescriptions": [
+      { "medicine": "Cetirizine Hydrochloride (10mg)", "dosage": "1 tab at night", "duration": "5 days" },
+      { "medicine": "Paracetamol (650mg)", "dosage": "1 tab SOS after food", "duration": "3 days" }
+    ],
+    "vitalSigns": {
+      "bloodPressure": "118/78 mmHg",
+      "heartRate": "70 bpm",
+      "spO2": "99%",
+      "temperature": "99.4 °F"
+    },
+    "clinicalNotes": "Symptomatic viral illness. Chest clear on auscultation. Advised warm saline gargles, adequate hydration, and rest.",
+    "status": "Resolved"
+  },
+  {
+    "id": "REC-2026-003",
+    "patientId": "usr-01",
+    "patientName": "Alexander Wright",
+    "date": "2026-05-12",
+    "doctorName": "Dr. Priya Sundaram",
+    "specialty": "Gastroenterologist",
+    "hospital": "Digestive Health & Endoscopy Institute",
+    "diagnosis": "Non-Erosive Reflux Disease (NERD)",
+    "severity": "Low",
+    "urgencyScore": 1,
+    "symptomsReported": ["acidity", "indigestion", "heartburn"],
+    "prescriptions": [
+      { "medicine": "Pantoprazole (40mg)", "dosage": "1 cap empty stomach in morning", "duration": "14 days" },
+      { "medicine": "Digestive Enzyme Syrup", "dosage": "10ml post meals", "duration": "10 days" }
+    ],
+    "vitalSigns": {
+      "bloodPressure": "120/80 mmHg",
+      "heartRate": "72 bpm",
+      "spO2": "98%",
+      "temperature": "98.4 °F"
+    },
+    "clinicalNotes": "Dietary modification recommended. Reduce late-night meals, caffeine, and spicy triggers.",
+    "status": "Resolved"
+  }
+]
