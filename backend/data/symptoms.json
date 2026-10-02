@@ -1,0 +1,93 @@
+[
+  {
+    "category": "General & Systemic",
+    "icon": "activity",
+    "symptoms": [
+      { "id": "high_fever", "label": "High Fever (>101°F)", "description": "Elevated core body temperature" },
+      { "id": "mild_fever", "label": "Mild Fever (99-100°F)", "description": "Slightly elevated temperature" },
+      { "id": "chills", "label": "Chills & Shivering", "description": "Cold feeling accompanied by tremors" },
+      { "id": "fatigue", "label": "Fatigue & Weakness", "description": "Excessive unexplained tiredness" },
+      { "id": "lethargy", "label": "Lethargy", "description": "Severe lack of energy or enthusiasm" },
+      { "id": "sweating", "label": "Profuse Sweating", "description": "Excessive sweating not due to heat" },
+      { "id": "weight_loss", "label": "Unintended Weight Loss", "description": "Rapid drop in body weight" },
+      { "id": "dehydration", "label": "Dehydration", "description": "Extreme thirst, dry mouth" },
+      { "id": "swelled_lymph_nodes", "label": "Swollen Lymph Nodes", "description": "Lumps in neck, armpit, or groin" }
+    ]
+  },
+  {
+    "category": "Respiratory & ENT",
+    "icon": "wind",
+    "symptoms": [
+      { "id": "cough", "label": "Persistent Cough", "description": "Dry or productive chest cough" },
+      { "id": "breathlessness", "label": "Breathlessness / Dyspnea", "description": "Difficulty in breathing normally" },
+      { "id": "continuous_sneezing", "label": "Continuous Sneezing", "description": "Repeated bouts of sneezing" },
+      { "id": "patches_in_throat", "label": "Throat Irritation / Patches", "description": "Soreness or white spots in throat" }
+    ]
+  },
+  {
+    "category": "Cardiovascular",
+    "icon": "heart",
+    "symptoms": [
+      { "id": "chest_pain", "label": "Chest Pain / Tightness", "description": "Pressure, squeezing, or pain in chest" },
+      { "id": "fast_heart_rate", "label": "Palpitations / Rapid Pulse", "description": "Abnormally fast or pounding heartbeat" },
+      { "id": "cold_hands_and_feets", "label": "Cold Hands & Feet", "description": "Poor extremity circulation" }
+    ]
+  },
+  {
+    "category": "Digestive & Abdominal",
+    "icon": "utensils",
+    "symptoms": [
+      { "id": "stomach_pain", "label": "Stomach Ache", "description": "Sharp or dull abdominal discomfort" },
+      { "id": "acidity", "label": "Heartburn / Acidity", "description": "Acid reflux sensation in upper chest" },
+      { "id": "indigestion", "label": "Indigestion / Dyspepsia", "description": "Bloating and fullness after meals" },
+      { "id": "vomiting", "label": "Vomiting", "description": "Involuntary regurgitation of stomach contents" },
+      { "id": "nausea", "label": "Nausea", "description": "Queasy stomach feeling with urge to vomit" },
+      { "id": "diarrhoea", "label": "Diarrhea / Loose Stool", "description": "Frequent watery bowel movements" },
+      { "id": "constipation", "label": "Constipation", "description": "Infrequent or difficult bowel movements" },
+      { "id": "loss_of_appetite", "label": "Loss of Appetite", "description": "Reduced desire to eat" },
+      { "id": "ulcers_on_tongue", "label": "Mouth / Tongue Ulcers", "description": "Painful sores inside oral cavity" }
+    ]
+  },
+  {
+    "category": "Neurological & Mental",
+    "icon": "brain",
+    "symptoms": [
+      { "id": "headache", "label": "Headache", "description": "Aching pain in cranial region" },
+      { "id": "dizziness", "label": "Dizziness / Vertigo", "description": "Lightheadedness or room-spinning sensation" },
+      { "id": "pain_behind_the_eyes", "label": "Retro-orbital Eye Pain", "description": "Pain located behind eyeballs" },
+      { "id": "anxiety", "label": "Anxiety & Restlessness", "description": "Unease, nervous tension" },
+      { "id": "mood_swings", "label": "Mood Swings", "description": "Rapid emotional fluctuations" }
+    ]
+  },
+  {
+    "category": "Musculoskeletal",
+    "icon": "shield",
+    "symptoms": [
+      { "id": "joint_pain", "label": "Joint Pain (Arthralgia)", "description": "Aching or stiffness in joints" },
+      { "id": "swelling_joints", "label": "Swelling in Joints", "description": "Visible inflammation in knees, hands, or ankles" },
+      { "id": "back_pain", "label": "Back Pain", "description": "Lower or upper spine discomfort" },
+      { "id": "muscle_wasting", "label": "Muscle Weakness / Aches", "description": "Decreased muscle strength" }
+    ]
+  },
+  {
+    "category": "Dermatological (Skin)",
+    "icon": "sun",
+    "symptoms": [
+      { "id": "itching", "label": "Severe Skin Itching (Pruritus)", "description": "Intense urge to scratch skin" },
+      { "id": "skin_rash", "label": "Skin Rash & Redness", "description": "Erythematous eruptions or patches" },
+      { "id": "nodal_skin_eruptions", "label": "Nodal Skin Eruptions", "description": "Raised bumps or nodular lesions" },
+      { "id": "yellowish_skin", "label": "Jaundice / Yellowish Skin", "description": "Yellow pigment discoloration" },
+      { "id": "yellowing_of_eyes", "label": "Yellowing of Eyes (Icterus)", "description": "Scleral icterus" }
+    ]
+  },
+  {
+    "category": "Urinary & Renal",
+    "icon": "droplet",
+    "symptoms": [
+      { "id": "burning_micturition", "label": "Burning Sensation When Urinating", "description": "Dysuria discomfort" },
+      { "id": "spotting_urination", "label": "Frequent / Spotting Urination", "description": "Urgent urge with small urine volume" },
+      { "id": "dark_urine", "label": "Dark Concentrated Urine", "description": "Tea-colored or deep amber urine" },
+      { "id": "irregular_sugar_level", "label": "Fluctuating Blood Sugar", "description": "High or erratic glucose symptoms" }
+    ]
+  }
+]

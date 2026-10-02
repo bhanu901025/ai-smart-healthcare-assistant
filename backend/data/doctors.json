@@ -1,0 +1,402 @@
+[
+  {
+    "id": "doc-01",
+    "name": "Dr. Sarah Jenkins",
+    "specialty": "Pulmonologist",
+    "qualifications": "MBBS, MD (Pulmonary Medicine), FCCP",
+    "experience": 14,
+    "rating": 4.9,
+    "total_reviews": 482,
+    "hospital": "Metro Heart & Lung Institute",
+    "location": "Central Medical District",
+    "fee": 65,
+    "avatar": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=300",
+    "slots": [
+      {
+        "time": "09:30 AM",
+        "type": "Urgent Care Priority",
+        "booked": false
+      },
+      {
+        "time": "11:00 AM",
+        "type": "Regular",
+        "booked": false
+      },
+      {
+        "time": "02:15 PM",
+        "type": "Regular",
+        "booked": true
+      },
+      {
+        "time": "04:45 PM",
+        "type": "Optimized Express",
+        "booked": false
+      }
+    ]
+  },
+  {
+    "id": "doc-02",
+    "name": "Dr. Rajesh K. Varma",
+    "specialty": "Cardiologist",
+    "qualifications": "MBBS, MD, DM (Cardiology), FACC",
+    "experience": 18,
+    "rating": 4.95,
+    "total_reviews": 620,
+    "hospital": "Apex Global Cardiac Center",
+    "location": "North Health Boulevard",
+    "fee": 85,
+    "avatar": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&q=80&w=300",
+    "slots": [
+      {
+        "time": "10:00 AM",
+        "type": "Emergency Fast-Track",
+        "booked": true
+      },
+      {
+        "time": "11:30 AM",
+        "type": "Regular",
+        "booked": false
+      },
+      {
+        "time": "03:00 PM",
+        "type": "Optimized Express",
+        "booked": false
+      },
+      {
+        "time": "05:15 PM",
+        "type": "Regular",
+        "booked": false
+      }
+    ]
+  },
+  {
+    "id": "doc-03",
+    "name": "Dr. Elena Rostova",
+    "specialty": "Neurologist",
+    "qualifications": "MD, PhD (Neuroscience), FAAN",
+    "experience": 12,
+    "rating": 4.85,
+    "total_reviews": 315,
+    "hospital": "NeuroLife Brain & Spine Center",
+    "location": "West End Medical Hub",
+    "fee": 75,
+    "avatar": "https://images.unsplash.com/photo-1594824813576-0f7d549cb7cb?auto=format&fit=crop&q=80&w=300",
+    "slots": [
+      {
+        "time": "09:00 AM",
+        "type": "Regular",
+        "booked": false
+      },
+      {
+        "time": "11:45 AM",
+        "type": "Optimized Express",
+        "booked": false
+      },
+      {
+        "time": "02:30 PM",
+        "type": "Regular",
+        "booked": false
+      },
+      {
+        "time": "04:00 PM",
+        "type": "Regular",
+        "booked": true
+      }
+    ]
+  },
+  {
+    "id": "doc-04",
+    "name": "Dr. Marcus Vance",
+    "specialty": "General Physician",
+    "qualifications": "MBBS, MD (Internal Medicine)",
+    "experience": 10,
+    "rating": 4.8,
+    "total_reviews": 540,
+    "hospital": "City Care Multi-Specialty Clinic",
+    "location": "Downtown Health Pavilion",
+    "fee": 45,
+    "avatar": "https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&q=80&w=300",
+    "slots": [
+      {
+        "time": "09:15 AM",
+        "type": "Urgent Care Priority",
+        "booked": false
+      },
+      {
+        "time": "10:45 AM",
+        "type": "Optimized Express",
+        "booked": false
+      },
+      {
+        "time": "01:30 PM",
+        "type": "Regular",
+        "booked": false
+      },
+      {
+        "time": "03:45 PM",
+        "type": "Regular",
+        "booked": false
+      },
+      {
+        "time": "06:00 PM",
+        "type": "Regular",
+        "booked": false
+      }
+    ]
+  },
+  {
+    "id": "doc-05",
+    "name": "Dr. Priya Sundaram",
+    "specialty": "Gastroenterologist",
+    "qualifications": "MBBS, MD, DNB (Gastroenterology)",
+    "experience": 15,
+    "rating": 4.9,
+    "total_reviews": 390,
+    "hospital": "Digestive Health & Endoscopy Institute",
+    "location": "South Bay Care Complex",
+    "fee": 70,
+    "avatar": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=300",
+    "slots": [
+      {
+        "time": "10:15 AM",
+        "type": "Regular",
+        "booked": false
+      },
+      {
+        "time": "12:00 PM",
+        "type": "Optimized Express",
+        "booked": false
+      },
+      {
+        "time": "03:30 PM",
+        "type": "Regular",
+        "booked": false
+      },
+      {
+        "time": "05:00 PM",
+        "type": "Regular",
+        "booked": true
+      }
+    ]
+  },
+  {
+    "id": "doc-06",
+    "name": "Dr. David Alpert",
+    "specialty": "Endocrinologist",
+    "qualifications": "MD, FACE (Endocrinology & Diabetology)",
+    "experience": 16,
+    "rating": 4.88,
+    "total_reviews": 410,
+    "hospital": "Metabolic Wellness & Diabetes Center",
+    "location": "Eastside Medical Park",
+    "fee": 70,
+    "avatar": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&q=80&w=300",
+    "slots": [
+      {
+        "time": "09:45 AM",
+        "type": "Regular",
+        "booked": false
+      },
+      {
+        "time": "11:15 AM",
+        "type": "Optimized Express",
+        "booked": false
+      },
+      {
+        "time": "02:00 PM",
+        "type": "Regular",
+        "booked": false
+      },
+      {
+        "time": "04:30 PM",
+        "type": "Regular",
+        "booked": false
+      }
+    ]
+  },
+  {
+    "id": "doc-07",
+    "name": "Dr. Sophia Chen",
+    "specialty": "Dermatologist",
+    "qualifications": "MD (Dermatology & Venereology), FAAD",
+    "experience": 11,
+    "rating": 4.92,
+    "total_reviews": 512,
+    "hospital": "Radiance Skin & Allergo Institute",
+    "location": "Central Medical District",
+    "fee": 60,
+    "avatar": "https://images.unsplash.com/photo-1594824813576-0f7d549cb7cb?auto=format&fit=crop&q=80&w=300",
+    "slots": [
+      {
+        "time": "10:30 AM",
+        "type": "Regular",
+        "booked": false
+      },
+      {
+        "time": "01:00 PM",
+        "type": "Optimized Express",
+        "booked": false
+      },
+      {
+        "time": "03:15 PM",
+        "type": "Regular",
+        "booked": false
+      },
+      {
+        "time": "05:30 PM",
+        "type": "Regular",
+        "booked": false
+      }
+    ]
+  },
+  {
+    "id": "doc-08",
+    "name": "Dr. Arthur Campbell",
+    "specialty": "Rheumatologist",
+    "qualifications": "MBBS, MRCP (UK), FACR",
+    "experience": 17,
+    "rating": 4.87,
+    "total_reviews": 290,
+    "hospital": "Joint & Autoimmune Care Center",
+    "location": "West End Medical Hub",
+    "fee": 80,
+    "avatar": "https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&q=80&w=300",
+    "slots": [
+      {
+        "time": "09:00 AM",
+        "type": "Regular",
+        "booked": false
+      },
+      {
+        "time": "11:30 AM",
+        "type": "Optimized Express",
+        "booked": false
+      },
+      {
+        "time": "02:45 PM",
+        "type": "Regular",
+        "booked": false
+      }
+    ]
+  },
+  {
+    "id": "doc-09",
+    "name": "Dr. Frank Harrison",
+    "specialty": "Orthopedic Surgeon",
+    "qualifications": "MS (Orthopedics), MCh (Joint Replacement)",
+    "experience": 20,
+    "rating": 4.94,
+    "total_reviews": 730,
+    "hospital": "Orthocare Bone & Joint Hospital",
+    "location": "North Health Boulevard",
+    "fee": 90,
+    "avatar": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&q=80&w=300",
+    "slots": [
+      {
+        "time": "10:00 AM",
+        "type": "Priority Surgical Evaluation",
+        "booked": false
+      },
+      {
+        "time": "01:15 PM",
+        "type": "Regular",
+        "booked": false
+      },
+      {
+        "time": "04:15 PM",
+        "type": "Optimized Express",
+        "booked": false
+      }
+    ]
+  },
+  {
+    "id": "doc-10",
+    "name": "Dr. Linda Gomez",
+    "specialty": "Nephrologist",
+    "qualifications": "MD, DM (Nephrology), FASN",
+    "experience": 13,
+    "rating": 4.91,
+    "total_reviews": 280,
+    "hospital": "RenalCare Dialysis & Kidney Institute",
+    "location": "South Bay Care Complex",
+    "fee": 80,
+    "avatar": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=300",
+    "slots": [
+      {
+        "time": "09:30 AM",
+        "type": "Urgent Care Priority",
+        "booked": false
+      },
+      {
+        "time": "11:00 AM",
+        "type": "Regular",
+        "booked": false
+      },
+      {
+        "time": "03:00 PM",
+        "type": "Optimized Express",
+        "booked": false
+      }
+    ]
+  },
+  {
+    "id": "doc-11",
+    "name": "Dr. Kevin O'Connor",
+    "specialty": "Urologist",
+    "qualifications": "MS (General Surgery), MCh (Urology)",
+    "experience": 15,
+    "rating": 4.86,
+    "total_reviews": 340,
+    "hospital": "Advanced Uro-Renal Pavilion",
+    "location": "Downtown Health Pavilion",
+    "fee": 75,
+    "avatar": "https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&q=80&w=300",
+    "slots": [
+      {
+        "time": "10:15 AM",
+        "type": "Regular",
+        "booked": false
+      },
+      {
+        "time": "01:30 PM",
+        "type": "Optimized Express",
+        "booked": false
+      },
+      {
+        "time": "04:00 PM",
+        "type": "Regular",
+        "booked": false
+      }
+    ]
+  },
+  {
+    "id": "doc-12",
+    "name": "Dr. Aisha Tariq",
+    "specialty": "Infectious Disease Specialist",
+    "qualifications": "MBBS, MD, Fellowship in Infectious Diseases (FID)",
+    "experience": 12,
+    "rating": 4.93,
+    "total_reviews": 460,
+    "hospital": "Pandemic & Infectious Prevention Center",
+    "location": "Central Medical District",
+    "fee": 70,
+    "avatar": "https://images.unsplash.com/photo-1594824813576-0f7d549cb7cb?auto=format&fit=crop&q=80&w=300",
+    "slots": [
+      {
+        "time": "09:00 AM",
+        "type": "Urgent Care Priority",
+        "booked": false
+      },
+      {
+        "time": "11:30 AM",
+        "type": "Regular",
+        "booked": false
+      },
+      {
+        "time": "02:15 PM",
+        "type": "Optimized Express",
+        "booked": false
+      }
+    ]
+  }
+]

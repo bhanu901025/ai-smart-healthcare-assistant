@@ -1,0 +1,25 @@
+{
+  "name": "ai-smart-healthcare-assistant",
+  "version": "1.0.0",
+  "description": "AI-Powered Smart Healthcare Assistant for Disease Prediction and Appointment Optimization",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": [
+    "healthcare",
+    "ai",
+    "disease-prediction",
+    "appointment-optimization",
+    "machine-learning",
+    "express",
+    "nodejs"
+  ],
+  "author": "Smart Healthcare Engineering Team",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  }
+}

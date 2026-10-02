@@ -1,0 +1,846 @@
+{
+  "version": "1.0.0",
+  "algorithm": "RandomForestClassifier",
+  "num_estimators": 120,
+  "test_accuracy": 97.5,
+  "cv_accuracy": 97.95,
+  "symptoms": [
+    "itching",
+    "skin_rash",
+    "nodal_skin_eruptions",
+    "continuous_sneezing",
+    "shivering",
+    "chills",
+    "joint_pain",
+    "stomach_pain",
+    "acidity",
+    "ulcers_on_tongue",
+    "muscle_wasting",
+    "vomiting",
+    "burning_micturition",
+    "spotting_urination",
+    "fatigue",
+    "weight_gain",
+    "anxiety",
+    "cold_hands_and_feets",
+    "mood_swings",
+    "weight_loss",
+    "restlessness",
+    "lethargy",
+    "patches_in_throat",
+    "irregular_sugar_level",
+    "cough",
+    "high_fever",
+    "sunken_eyes",
+    "breathlessness",
+    "sweating",
+    "dehydration",
+    "indigestion",
+    "headache",
+    "yellowish_skin",
+    "dark_urine",
+    "nausea",
+    "loss_of_appetite",
+    "pain_behind_the_eyes",
+    "back_pain",
+    "constipation",
+    "abdominal_pain",
+    "diarrhoea",
+    "mild_fever",
+    "yellowing_of_eyes",
+    "swelled_lymph_nodes",
+    "chest_pain",
+    "fast_heart_rate",
+    "dizziness",
+    "swelling_joints"
+  ],
+  "diseases": [
+    "Common Cold",
+    "Influenza (Flu)",
+    "Pneumonia",
+    "Bronchial Asthma",
+    "COVID-19",
+    "Hypertension",
+    "Coronary Heart Disease",
+    "Type 2 Diabetes",
+    "Gastroesophageal Reflux Disease (GERD)",
+    "Peptic Ulcer Disease",
+    "Gastroenteritis",
+    "Migraine",
+    "Tension Headache",
+    "Dengue Fever",
+    "Malaria",
+    "Typhoid Fever",
+    "Rheumatoid Arthritis",
+    "Osteoarthritis",
+    "Eczema / Atopic Dermatitis",
+    "Psoriasis",
+    "Chronic Kidney Disease",
+    "Urinary Tract Infection (UTI)"
+  ],
+  "disease_profiles": {
+    "Common Cold": {
+      "core_symptoms": [
+        "continuous_sneezing",
+        "cough",
+        "headache",
+        "fatigue",
+        "chills"
+      ],
+      "optional_symptoms": [
+        "mild_fever",
+        "loss_of_appetite"
+      ],
+      "specialist": "General Physician",
+      "severity": "Low",
+      "urgency_score": 1,
+      "precautions": [
+        "Stay well hydrated with warm liquids like herbal teas and clear broths",
+        "Take adequate rest to allow your immune system to recover",
+        "Use saline nasal drops or steam inhalation to ease congestion",
+        "Avoid cold and chilled beverages"
+      ],
+      "diet": {
+        "recommended": [
+          "Citrus fruits rich in Vitamin C",
+          "Ginger-honey tea",
+          "Warm vegetable soups"
+        ],
+        "avoid": [
+          "Chilled dairy",
+          "Deep-fried foods",
+          "High sugar drinks"
+        ]
+      }
+    },
+    "Influenza (Flu)": {
+      "core_symptoms": [
+        "high_fever",
+        "chills",
+        "cough",
+        "fatigue",
+        "headache",
+        "joint_pain"
+      ],
+      "optional_symptoms": [
+        "sweating",
+        "loss_of_appetite",
+        "vomiting"
+      ],
+      "specialist": "General Physician",
+      "severity": "Moderate",
+      "urgency_score": 2,
+      "precautions": [
+        "Maintain strict bed rest for at least 3-5 days",
+        "Monitor body temperature every 4-6 hours",
+        "Isolate in a well-ventilated room to prevent household transmission",
+        "Consult a physician if fever exceeds 102\u00b0F or persists past 3 days"
+      ],
+      "diet": {
+        "recommended": [
+          "Chicken or lentil soup",
+          "Electrolyte-replenishing drinks",
+          "Soft cooked oats"
+        ],
+        "avoid": [
+          "Heavy greasy foods",
+          "Caffeinated drinks",
+          "Alcohol"
+        ]
+      }
+    },
+    "Pneumonia": {
+      "core_symptoms": [
+        "high_fever",
+        "breathlessness",
+        "cough",
+        "chest_pain",
+        "fatigue",
+        "chills"
+      ],
+      "optional_symptoms": [
+        "sweating",
+        "fast_heart_rate",
+        "loss_of_appetite"
+      ],
+      "specialist": "Pulmonologist",
+      "severity": "Critical",
+      "urgency_score": 4,
+      "precautions": [
+        "Seek prompt medical consultation or hospital triage immediately",
+        "Keep pulse oximeter handy to check oxygen saturation (SpO2)",
+        "Do not suppress productive cough without doctor approval",
+        "Maintain upright sitting posture to facilitate easier breathing"
+      ],
+      "diet": {
+        "recommended": [
+          "Warm protein-rich broths",
+          "Hydrating fresh juices",
+          "Soft easily digestible grains"
+        ],
+        "avoid": [
+          "Cold refrigerated food",
+          "Mucus-producing dairy",
+          "Processed snacks"
+        ]
+      }
+    },
+    "Bronchial Asthma": {
+      "core_symptoms": [
+        "breathlessness",
+        "cough",
+        "chest_pain",
+        "fatigue"
+      ],
+      "optional_symptoms": [
+        "fast_heart_rate",
+        "restlessness",
+        "anxiety"
+      ],
+      "specialist": "Pulmonologist",
+      "severity": "High",
+      "urgency_score": 3,
+      "precautions": [
+        "Keep prescribed rescue inhaler (bronchodilator) accessible at all times",
+        "Avoid known triggers such as dust, pollen, pet dander, and smoke",
+        "Practice diaphragmatic breathing exercises",
+        "Check peak expiratory flow (PEF) regularly if monitoring at home"
+      ],
+      "diet": {
+        "recommended": [
+          "Omega-3 rich foods (flaxseeds, walnuts)",
+          "Antioxidant berries",
+          "Steamed greens"
+        ],
+        "avoid": [
+          "Sulfited dried fruits",
+          "Processed cold cuts",
+          "Cold carbonated sodas"
+        ]
+      }
+    },
+    "COVID-19": {
+      "core_symptoms": [
+        "high_fever",
+        "cough",
+        "fatigue",
+        "loss_of_appetite",
+        "breathlessness"
+      ],
+      "optional_symptoms": [
+        "headache",
+        "joint_pain",
+        "diarrhoea",
+        "chills"
+      ],
+      "specialist": "Infectious Disease Specialist",
+      "severity": "High",
+      "urgency_score": 3,
+      "precautions": [
+        "Self-isolate immediately and wear an N95 mask around others",
+        "Continuously monitor SpO2 levels and seek emergency care if below 94%",
+        "Perform RT-PCR or rapid antigen testing for clinical confirmation",
+        "Stay hydrated and avoid strenuous physical exertion"
+      ],
+      "diet": {
+        "recommended": [
+          "Zinc & Vitamin D fortified foods",
+          "Turmeric milk",
+          "Hydrating coconut water"
+        ],
+        "avoid": [
+          "Ultra-processed fast foods",
+          "Excessive sugars",
+          "Salty chips"
+        ]
+      }
+    },
+    "Hypertension": {
+      "core_symptoms": [
+        "headache",
+        "dizziness",
+        "fast_heart_rate",
+        "fatigue"
+      ],
+      "optional_symptoms": [
+        "chest_pain",
+        "anxiety",
+        "restlessness"
+      ],
+      "specialist": "Cardiologist",
+      "severity": "Moderate",
+      "urgency_score": 2,
+      "precautions": [
+        "Strictly monitor blood pressure morning and evening",
+        "Restrict sodium (salt) intake to less than 2,000 mg per day",
+        "Engage in 30 minutes of moderate aerobic activity (e.g. brisk walking)",
+        "Adopt stress-reduction techniques such as meditation or yoga"
+      ],
+      "diet": {
+        "recommended": [
+          "DASH diet rich in leafy greens",
+          "Bananas (potassium)",
+          "Garlic & beetroot"
+        ],
+        "avoid": [
+          "Pickles and canned soups",
+          "Caffeine",
+          "Processed cured meats"
+        ]
+      }
+    },
+    "Coronary Heart Disease": {
+      "core_symptoms": [
+        "chest_pain",
+        "breathlessness",
+        "fast_heart_rate",
+        "fatigue",
+        "sweating"
+      ],
+      "optional_symptoms": [
+        "dizziness",
+        "anxiety",
+        "nausea"
+      ],
+      "specialist": "Cardiologist",
+      "severity": "Critical",
+      "urgency_score": 4,
+      "precautions": [
+        "Emergency medical evaluation required immediately if chest discomfort radiates to arm/jaw",
+        "Never ignore sudden unprovoked sweating or shortness of breath",
+        "Avoid strenuous exertion until cleared by a cardiac specialist",
+        "Adhere strictly to prescribed cardiac medication"
+      ],
+      "diet": {
+        "recommended": [
+          "Heart-healthy olive oil",
+          "Oatmeal and soluble fibers",
+          "Omega-3 rich foods"
+        ],
+        "avoid": [
+          "Trans-fats & fried foods",
+          "Full-fat dairy",
+          "High-cholesterol processed meals"
+        ]
+      }
+    },
+    "Type 2 Diabetes": {
+      "core_symptoms": [
+        "fatigue",
+        "weight_loss",
+        "restlessness",
+        "lethargy",
+        "irregular_sugar_level"
+      ],
+      "optional_symptoms": [
+        "sunken_eyes",
+        "dehydration",
+        "spotting_urination"
+      ],
+      "specialist": "Endocrinologist",
+      "severity": "Moderate",
+      "urgency_score": 2,
+      "precautions": [
+        "Track fasting and post-prandial blood glucose levels regularly",
+        "Inspect feet daily for cuts, blisters, or slow-healing sores",
+        "Maintain a consistent meal schedule without prolonged fasting",
+        "Schedule biannual HbA1c testing and annual retinal checkups"
+      ],
+      "diet": {
+        "recommended": [
+          "Low GI whole grains (quinoa, brown rice)",
+          "High fiber vegetables",
+          "Lentils and legumes"
+        ],
+        "avoid": [
+          "Refined sugars & pastries",
+          "Sweetened beverages",
+          "White bread and refined flour"
+        ]
+      }
+    },
+    "Gastroesophageal Reflux Disease (GERD)": {
+      "core_symptoms": [
+        "acidity",
+        "stomach_pain",
+        "chest_pain",
+        "indigestion",
+        "cough"
+      ],
+      "optional_symptoms": [
+        "vomiting",
+        "ulcers_on_tongue",
+        "nausea"
+      ],
+      "specialist": "Gastroenterologist",
+      "severity": "Low",
+      "urgency_score": 1,
+      "precautions": [
+        "Elevate head of bed by 6 inches while sleeping",
+        "Avoid lying down within 2 to 3 hours after eating meals",
+        "Eat smaller, more frequent meals rather than large heavy dinners",
+        "Avoid tight-fitting waist clothing that increases abdominal pressure"
+      ],
+      "diet": {
+        "recommended": [
+          "Non-citrus fruits (apples, pears, bananas)",
+          "Oatmeal and almond milk",
+          "Steamed vegetables"
+        ],
+        "avoid": [
+          "Spicy chili foods",
+          "Chocolate and mint",
+          "Tomatoes and citrus juices"
+        ]
+      }
+    },
+    "Peptic Ulcer Disease": {
+      "core_symptoms": [
+        "stomach_pain",
+        "acidity",
+        "vomiting",
+        "indigestion",
+        "loss_of_appetite"
+      ],
+      "optional_symptoms": [
+        "abdominal_pain",
+        "nausea",
+        "weight_loss"
+      ],
+      "specialist": "Gastroenterologist",
+      "severity": "Moderate",
+      "urgency_score": 2,
+      "precautions": [
+        "Avoid non-steroidal anti-inflammatory drugs (NSAIDs) like ibuprofen or aspirin",
+        "Refrain from tobacco and alcoholic beverages completely",
+        "Consult specialist for Helicobacter pylori diagnostic testing",
+        "Take prescribed antacids or proton pump inhibitors (PPIs) consistently"
+      ],
+      "diet": {
+        "recommended": [
+          "Probiotic yogurts and kefir",
+          "Cooked carrots and squashes",
+          "Bland porridge"
+        ],
+        "avoid": [
+          "Black pepper and strong spices",
+          "Coffee and acidic drinks",
+          "Raw coarse veggies"
+        ]
+      }
+    },
+    "Gastroenteritis": {
+      "core_symptoms": [
+        "vomiting",
+        "diarrhoea",
+        "stomach_pain",
+        "dehydration",
+        "sunken_eyes"
+      ],
+      "optional_symptoms": [
+        "mild_fever",
+        "nausea",
+        "fatigue"
+      ],
+      "specialist": "Gastroenterologist",
+      "severity": "Moderate",
+      "urgency_score": 2,
+      "precautions": [
+        "Drink Oral Rehydration Salts (ORS) solution continuously to replace fluids and electrolytes",
+        "Wash hands thoroughly with soap after every bathroom visit",
+        "Gradually reintroduce mild solid foods following the BRAT diet (Banana, Rice, Applesauce, Toast)",
+        "Seek medical attention if vomiting prevents fluid retention for 12 hours"
+      ],
+      "diet": {
+        "recommended": [
+          "Oral Rehydration Solution (ORS)",
+          "Steamed white rice & plain congee",
+          "Clear broth"
+        ],
+        "avoid": [
+          "Dairy products and milk",
+          "Greasy fried foods",
+          "Sugary sodas"
+        ]
+      }
+    },
+    "Migraine": {
+      "core_symptoms": [
+        "headache",
+        "nausea",
+        "pain_behind_the_eyes",
+        "dizziness",
+        "vomiting"
+      ],
+      "optional_symptoms": [
+        "anxiety",
+        "fatigue",
+        "mood_swings"
+      ],
+      "specialist": "Neurologist",
+      "severity": "Moderate",
+      "urgency_score": 2,
+      "precautions": [
+        "Rest in a quiet, dark, and cool room when migraine strikes",
+        "Maintain a consistent sleep-wake schedule even on weekends",
+        "Identify and log sensory triggers such as bright lights, loud noises, or strong scents",
+        "Stay hydrated throughout the day"
+      ],
+      "diet": {
+        "recommended": [
+          "Magnesium-rich foods (spinach, pumpkin seeds)",
+          "Hydrating cucumbers",
+          "Ginger tea"
+        ],
+        "avoid": [
+          "Aged cheeses",
+          "Artificial sweeteners (aspartame)",
+          "Processed meats with nitrates"
+        ]
+      }
+    },
+    "Tension Headache": {
+      "core_symptoms": [
+        "headache",
+        "back_pain",
+        "fatigue",
+        "dizziness"
+      ],
+      "optional_symptoms": [
+        "anxiety",
+        "restlessness",
+        "mood_swings"
+      ],
+      "specialist": "Neurologist",
+      "severity": "Low",
+      "urgency_score": 1,
+      "precautions": [
+        "Practice regular neck, shoulder, and ergonomic posture stretches",
+        "Take frequent breaks during long computer or desk work sessions (20-20-20 rule)",
+        "Apply a warm compress or heating pad to neck and shoulder muscles",
+        "Ensure at least 7-8 hours of sound sleep nightly"
+      ],
+      "diet": {
+        "recommended": [
+          "Adequate water intake (2.5L daily)",
+          "Chamomile tea",
+          "Whole grain complex carbs"
+        ],
+        "avoid": [
+          "Excessive caffeine",
+          "Energy drinks",
+          "Skipping meals"
+        ]
+      }
+    },
+    "Dengue Fever": {
+      "core_symptoms": [
+        "high_fever",
+        "pain_behind_the_eyes",
+        "joint_pain",
+        "vomiting",
+        "fatigue",
+        "skin_rash"
+      ],
+      "optional_symptoms": [
+        "chills",
+        "nausea",
+        "loss_of_appetite",
+        "back_pain"
+      ],
+      "specialist": "General Physician",
+      "severity": "High",
+      "urgency_score": 3,
+      "precautions": [
+        "Get a complete blood count (CBC) to monitor platelet count daily",
+        "Avoid aspirin or ibuprofen as they increase hemorrhage risk (use paracetamol only if advised)",
+        "Use mosquito repellent, bed nets, and eliminate stagnant water around residence",
+        "Immediate hospitalization if severe abdominal pain, persistent vomiting, or mucosal bleeding occurs"
+      ],
+      "diet": {
+        "recommended": [
+          "Papaya leaf extract juice",
+          "Fresh coconut water",
+          "Pomegranate juice",
+          "Hydrating soups"
+        ],
+        "avoid": [
+          "Dark or red-colored food (can confuse with blood in vomit)",
+          "Oily fast foods"
+        ]
+      }
+    },
+    "Malaria": {
+      "core_symptoms": [
+        "chills",
+        "vomiting",
+        "high_fever",
+        "sweating",
+        "headache",
+        "nausea"
+      ],
+      "optional_symptoms": [
+        "diarrhoea",
+        "muscle_wasting",
+        "loss_of_appetite"
+      ],
+      "specialist": "General Physician",
+      "severity": "High",
+      "urgency_score": 3,
+      "precautions": [
+        "Confirm diagnosis with rapid diagnostic blood smear (Malaria smear/antigen test)",
+        "Complete full course of prescribed antimalarial medications without stopping midway",
+        "Sleep under insecticide-treated bed nets",
+        "Keep surroundings free of mosquito breeding sites"
+      ],
+      "diet": {
+        "recommended": [
+          "High-calorie easily absorbable meals",
+          "Fresh orange & sweet lime juice",
+          "Boiled vegetables"
+        ],
+        "avoid": [
+          "Spicy, acidic, and fatty foods",
+          "Unpasteurized foods"
+        ]
+      }
+    },
+    "Typhoid Fever": {
+      "core_symptoms": [
+        "high_fever",
+        "chills",
+        "fatigue",
+        "headache",
+        "abdominal_pain",
+        "diarrhoea"
+      ],
+      "optional_symptoms": [
+        "vomiting",
+        "loss_of_appetite",
+        "constipation"
+      ],
+      "specialist": "General Physician",
+      "severity": "High",
+      "urgency_score": 3,
+      "precautions": [
+        "Drink only boiled, filtered, or sealed bottled water",
+        "Strict adherence to prescribed antibiotic regimen to avoid relapse",
+        "Avoid street food, raw salads, and unpeeled fruits",
+        "Disinfect household utensils and wash hands meticulously"
+      ],
+      "diet": {
+        "recommended": [
+          "Soft cooked rice with diluted lentils (Khichdi)",
+          "Boiled potatoes",
+          "Clear vegetable broths"
+        ],
+        "avoid": [
+          "Raw unwashed vegetables",
+          "Spicy curries",
+          "Coarse high-fiber raw grains"
+        ]
+      }
+    },
+    "Rheumatoid Arthritis": {
+      "core_symptoms": [
+        "joint_pain",
+        "swelling_joints",
+        "fatigue",
+        "stiffness",
+        "muscle_wasting"
+      ],
+      "optional_symptoms": [
+        "mild_fever",
+        "loss_of_appetite",
+        "weight_loss"
+      ],
+      "specialist": "Rheumatologist",
+      "severity": "Moderate",
+      "urgency_score": 2,
+      "precautions": [
+        "Perform gentle joint range-of-motion exercises every morning to reduce stiffness",
+        "Apply warm compresses to stiff joints and cold packs during flare-up inflammation",
+        "Maintain optimal healthy body weight to minimize joint load",
+        "Consult rheumatologist regularly for disease-modifying antirheumatic drugs (DMARDs) monitoring"
+      ],
+      "diet": {
+        "recommended": [
+          "Anti-inflammatory foods (turmeric, ginger, olive oil)",
+          "Fatty fish (salmon)",
+          "Walnuts"
+        ],
+        "avoid": [
+          "Processed sugars",
+          "Red meat",
+          "Fried processed snacks"
+        ]
+      }
+    },
+    "Osteoarthritis": {
+      "core_symptoms": [
+        "joint_pain",
+        "swelling_joints",
+        "back_pain",
+        "dizziness"
+      ],
+      "optional_symptoms": [
+        "fatigue",
+        "muscle_wasting"
+      ],
+      "specialist": "Orthopedic Surgeon",
+      "severity": "Moderate",
+      "urgency_score": 2,
+      "precautions": [
+        "Engage in low-impact joint-friendly physical activities like swimming and cycling",
+        "Use supportive ergonomic footwear with shock-absorbing soles",
+        "Utilize assistive devices or knee braces during extended walking if advised",
+        "Avoid heavy weight-lifting or sudden high-impact joint stresses"
+      ],
+      "diet": {
+        "recommended": [
+          "Calcium & Vitamin D fortified foods",
+          "Leafy green vegetables",
+          "Bone broths"
+        ],
+        "avoid": [
+          "Inflammatory refined oils",
+          "Excess salt",
+          "Excessive alcohol"
+        ]
+      }
+    },
+    "Eczema / Atopic Dermatitis": {
+      "core_symptoms": [
+        "itching",
+        "skin_rash",
+        "nodal_skin_eruptions"
+      ],
+      "optional_symptoms": [
+        "fatigue",
+        "restlessness"
+      ],
+      "specialist": "Dermatologist",
+      "severity": "Low",
+      "urgency_score": 1,
+      "precautions": [
+        "Apply fragrance-free moisturizing ceramide creams immediately after bathing while skin is damp",
+        "Avoid hot showers and switch to lukewarm water with mild soap-free cleansers",
+        "Wear soft, breathable natural cotton clothing and avoid scratchy wool",
+        "Keep fingernails trimmed short to prevent skin excoriation and secondary bacterial infection"
+      ],
+      "diet": {
+        "recommended": [
+          "Omega-3 rich seeds",
+          "Probiotic yogurt",
+          "Zinc rich foods (spinach, pumpkin seeds)"
+        ],
+        "avoid": [
+          "Artificial food colorings",
+          "Preservatives",
+          "Known food allergens"
+        ]
+      }
+    },
+    "Psoriasis": {
+      "core_symptoms": [
+        "skin_rash",
+        "itching",
+        "swelling_joints",
+        "joint_pain"
+      ],
+      "optional_symptoms": [
+        "fatigue",
+        "mood_swings"
+      ],
+      "specialist": "Dermatologist",
+      "severity": "Moderate",
+      "urgency_score": 2,
+      "precautions": [
+        "Keep affected skin consistently hydrated with thick emollient ointments",
+        "Get safe, moderate natural sunlight exposure (10-15 mins daily) under dermatologic advice",
+        "Avoid picking, scratching, or peeling skin plaques",
+        "Manage psychological stress through mindfulness, as stress triggers flare-ups"
+      ],
+      "diet": {
+        "recommended": [
+          "Cold-pressed extra virgin olive oil",
+          "Leafy greens",
+          "Antioxidant rich berries"
+        ],
+        "avoid": [
+          "Nightshade vegetables if sensitive (eggplant, tomatoes)",
+          "Alcohol",
+          "Processed red meat"
+        ]
+      }
+    },
+    "Chronic Kidney Disease": {
+      "core_symptoms": [
+        "fatigue",
+        "loss_of_appetite",
+        "vomiting",
+        "weight_loss",
+        "swelling_joints"
+      ],
+      "optional_symptoms": [
+        "dark_urine",
+        "burning_micturition",
+        "breathlessness"
+      ],
+      "specialist": "Nephrologist",
+      "severity": "Critical",
+      "urgency_score": 4,
+      "precautions": [
+        "Regular kidney function testing (Serum Creatinine, eGFR, Blood Urea Nitrogen)",
+        "Strictly follow physician guidance regarding daily fluid and protein intake quotas",
+        "Do not consume over-the-counter pain medications without nephrologist clearance",
+        "Maintain tight control over both blood pressure and blood glucose levels"
+      ],
+      "diet": {
+        "recommended": [
+          "Renal-diet formulated low potassium & low phosphorus foods",
+          "Apples, cabbage, egg whites"
+        ],
+        "avoid": [
+          "Bananas & oranges (high potassium)",
+          "Dairy products (high phosphorus)",
+          "Canned high-sodium goods"
+        ]
+      }
+    },
+    "Urinary Tract Infection (UTI)": {
+      "core_symptoms": [
+        "burning_micturition",
+        "spotting_urination",
+        "stomach_pain",
+        "abdominal_pain"
+      ],
+      "optional_symptoms": [
+        "mild_fever",
+        "dark_urine",
+        "nausea"
+      ],
+      "specialist": "Urologist",
+      "severity": "Moderate",
+      "urgency_score": 2,
+      "precautions": [
+        "Drink 2.5 to 3 liters of fresh water daily to help flush bacteria from urinary tract",
+        "Urinate promptly when the urge arises; do not hold urine for extended periods",
+        "Undergo urine culture and sensitivity testing before finishing full antibiotic course",
+        "Avoid feminine hygiene sprays and harsh scented soaps in pelvic area"
+      ],
+      "diet": {
+        "recommended": [
+          "Pure unsweetened cranberry extract or juice",
+          "Abundant clean water",
+          "Probiotic kefir"
+        ],
+        "avoid": [
+          "Caffeinated coffees and teas",
+          "Citrus fruits during acute burning",
+          "Alcohol and spicy foods"
+        ]
+      }
+    }
+  }
+}

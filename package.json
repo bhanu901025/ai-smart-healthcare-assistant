@@ -1,0 +1,18 @@
+{
+  "name": "ai-smart-healthcare-assistant",
+  "version": "1.0.0",
+  "description": "AI-Powered Smart Healthcare Assistant for Disease Prediction and Appointment Optimization",
+  "main": "backend/server.js",
+  "scripts": {
+    "install-backend": "cd backend && npm install",
+    "postinstall": "cd backend && npm install",
+    "start": "node backend/server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
