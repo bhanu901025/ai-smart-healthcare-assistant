@@ -64,6 +64,11 @@ function updateAuthUI() {
     if (spo2El) spo2El.innerHTML = `${parseInt(currentUser.vitals.spO2, 10) || 98} <span class="vital-unit">%</span>`;
     if (glucEl) glucEl.innerHTML = `${parseInt(currentUser.vitals.bloodGlucose, 10) || 95} <span class="vital-unit">mg/dL</span>`;
   }
+
+  const roleBtnLabel = document.getElementById('btn-role-switch-label');
+  if (roleBtnLabel) {
+    roleBtnLabel.textContent = currentUser.role === 'doctor' ? 'Switch to Patient' : 'Switch to Doctor';
+  }
 }
 
 // 1-Click Demo Login

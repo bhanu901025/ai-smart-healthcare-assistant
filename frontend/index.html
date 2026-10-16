@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HealthPulse AI - Enterprise Clinical Decision Support & Patient Management System</title>
+  <title>HealthPulse Enterprise AI - Clinical Decision Support & Patient Management System</title>
   <meta name="description" content="AI-Powered Clinical Disease Prediction, Smart Appointment Optimization, EHR Records & Visual Health Intelligence">
   
   <!-- Google Fonts: Plus Jakarta Sans & Inter -->
@@ -20,96 +20,277 @@
   <!-- Custom Modern Stylesheet -->
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="app-shell-body">
 
-  <!-- Top Emergency Triage Banner -->
-  <div class="emergency-bar">
-    <div class="container emergency-content">
-      <span><i class="fa-solid fa-triangle-exclamation"></i> <strong>Clinical Emergency Triage:</strong> If you experience acute chest tightness radiating to the arm, sudden paralysis, or severe respiratory distress, call <strong>911 / 112</strong> immediately.</span>
-      <div class="emergency-actions">
-        <span class="pulse-badge"><i class="fa-solid fa-circle"></i> AI Triage Engine v2.0 Online (97.5% Acc)</span>
+  <!-- Mobile Sidebar Overlay Backdrop -->
+  <div class="sidebar-backdrop" id="sidebar-backdrop" onclick="toggleSidebar()"></div>
+
+  <!-- =========================================================================
+       PERMANENT ENTERPRISE SIDEBAR NAVIGATION (COMMAND HUB)
+       ========================================================================= -->
+  <aside class="app-sidebar" id="app-sidebar">
+    <!-- Brand Logo Header -->
+    <div class="sidebar-brand">
+      <div class="logo-icon-wrapper">
+        <i class="fa-solid fa-heart-pulse"></i>
       </div>
+      <div class="brand-text">
+        <span class="brand-title">HealthPulse <span class="brand-accent">OS</span></span>
+        <span class="brand-sub">Enterprise Healthcare Platform</span>
+      </div>
+      <button class="sidebar-close-btn" onclick="toggleSidebar()">&times;</button>
     </div>
-  </div>
 
-  <!-- Navigation Bar -->
-  <header class="navbar-header">
-    <div class="container navbar-container">
-      <a href="#dashboard" class="brand-logo" onclick="switchTab('dashboard')">
-        <div class="logo-icon-wrapper">
-          <i class="fa-solid fa-heart-pulse"></i>
-        </div>
-        <div class="brand-text">
-          <span class="brand-title">HealthPulse <span class="brand-accent">Enterprise</span></span>
-          <span class="brand-sub">Clinical AI & Hospital Workflow OS</span>
-        </div>
-      </a>
-
-      <!-- Primary Navigation Links -->
-      <nav class="nav-links">
-        <button class="nav-btn active" data-tab="dashboard" onclick="switchTab('dashboard')">
-          <i class="fa-solid fa-chart-pie"></i> Visual Dashboard
-        </button>
-        <button class="nav-btn" data-tab="predictor" onclick="switchTab('predictor')">
-          <i class="fa-solid fa-stethoscope"></i> AI Disease Predictor
-        </button>
-        <button class="nav-btn" data-tab="appointments" onclick="switchTab('appointments')">
-          <i class="fa-solid fa-calendar-check"></i> Smart Appointments
-        </button>
-        <button class="nav-btn" data-tab="records" onclick="switchTab('records')">
-          <i class="fa-solid fa-file-medical"></i> Patient EHR
-        </button>
-        <button class="nav-btn" data-tab="doctor-portal" onclick="switchTab('doctor-portal')">
-          <i class="fa-solid fa-hospital-user"></i> Doctor Triage
-        </button>
-        <button class="nav-btn" data-tab="my-bookings" onclick="switchTab('my-bookings')">
-          <i class="fa-solid fa-receipt"></i> Passes <span id="nav-booking-count" class="badge-count">2</span>
+    <!-- Navigation Menu Groups -->
+    <div class="sidebar-nav-scroll">
+      
+      <!-- Section 1: Command Hub -->
+      <div class="nav-section-title">COMMAND CENTER</div>
+      <nav class="sidebar-menu">
+        <button class="nav-item active" data-tab="dashboard" onclick="switchTab('dashboard')">
+          <i class="fa-solid fa-chart-pie nav-icon"></i>
+          <span>Visual Dashboard</span>
+          <span class="nav-badge pulse">Live</span>
         </button>
       </nav>
 
-      <!-- User Auth & Quick Actions -->
-      <div class="header-actions">
-        <!-- Logged In User Pill -->
-        <div class="user-profile-badge" id="user-profile-badge" onclick="openProfileModal()">
-          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=120" id="user-nav-avatar" class="user-nav-avatar" alt="Avatar">
-          <div class="user-nav-info">
-            <span class="user-nav-name" id="user-nav-name">Alexander Wright</span>
-            <span class="user-nav-role patient" id="user-nav-role">Patient • Score: 88</span>
-          </div>
-          <i class="fa-solid fa-angle-down" style="font-size: 0.75rem; color: var(--text-muted);"></i>
-        </div>
+      <!-- Section 2: Clinical AI -->
+      <div class="nav-section-title">CLINICAL AI & TRIAGE</div>
+      <nav class="sidebar-menu">
+        <button class="nav-item" data-tab="predictor" onclick="switchTab('predictor')">
+          <i class="fa-solid fa-stethoscope nav-icon"></i>
+          <span>AI Disease Predictor</span>
+          <span class="nav-badge blue">97.5% Acc</span>
+        </button>
+        <button class="nav-item" data-tab="appointments" onclick="switchTab('appointments')">
+          <i class="fa-solid fa-calendar-check nav-icon"></i>
+          <span>Smart Appointments</span>
+          <span class="nav-badge green">-45m Wait</span>
+        </button>
+      </nav>
 
-        <button class="btn btn-chat-toggle" onclick="toggleChatModal()">
-          <i class="fa-solid fa-robot"></i> AI Triage
+      <!-- Section 3: Patient Care & EHR -->
+      <div class="nav-section-title">PATIENT CARE & RECORDS</div>
+      <nav class="sidebar-menu">
+        <button class="nav-item" data-tab="records" onclick="switchTab('records')">
+          <i class="fa-solid fa-file-medical nav-icon"></i>
+          <span>Patient EHR Records</span>
+          <span class="nav-badge count" id="nav-records-count">3</span>
+        </button>
+        <button class="nav-item" data-tab="my-bookings" onclick="switchTab('my-bookings')">
+          <i class="fa-solid fa-receipt nav-icon"></i>
+          <span>Admission Passes</span>
+          <span class="nav-badge count" id="nav-booking-count">3</span>
+        </button>
+        <button class="nav-item" data-tab="doctors" onclick="switchTab('doctors')">
+          <i class="fa-solid fa-user-doctor nav-icon"></i>
+          <span>Doctor Directory</span>
+          <span class="nav-badge count">12</span>
+        </button>
+      </nav>
+
+      <!-- Section 4: Hospital Ops & Full Stack Database -->
+      <div class="nav-section-title">HOSPITAL OPS & FULL-STACK</div>
+      <nav class="sidebar-menu">
+        <button class="nav-item" data-tab="doctor-portal" onclick="switchTab('doctor-portal')">
+          <i class="fa-solid fa-hospital-user nav-icon"></i>
+          <span>Doctor Triage Queue</span>
+          <span class="nav-badge red">Priority</span>
+        </button>
+        <button class="nav-item" data-tab="db-inspector" onclick="switchTab('db-inspector')">
+          <i class="fa-solid fa-database nav-icon"></i>
+          <span>Database Inspector</span>
+          <span class="nav-badge purple">4 Tables</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- Sidebar Footer: Active User Profile Card & Role Switcher -->
+    <div class="sidebar-user-footer">
+      <div class="user-card-inner" onclick="openProfileModal()">
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=120" id="user-nav-avatar" class="sidebar-user-avatar" alt="Avatar">
+        <div class="user-info-text">
+          <div class="user-name" id="user-nav-name">Alexander Wright</div>
+          <div class="user-role-tag patient" id="user-nav-role">Patient • Score: 88</div>
+        </div>
+      </div>
+      <button class="btn btn-sm btn-outline-light switch-role-btn" onclick="toggleRoleSwitch()" title="Toggle between Patient and Doctor View">
+        <i class="fa-solid fa-repeat"></i> <span id="btn-role-switch-label">Switch to Doctor</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- =========================================================================
+       MAIN APPLICATION LAYOUT WRAPPER
+       ========================================================================= -->
+  <div class="app-main-wrapper">
+
+    <!-- Top Command & Action Bar -->
+    <header class="app-topbar">
+      <div class="topbar-left">
+        <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Toggle Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <div class="topbar-breadcrumb">
+          <span class="breadcrumb-org">HealthPulse Hospital Network</span>
+          <span class="breadcrumb-divider">/</span>
+          <span class="breadcrumb-active" id="topbar-active-title">Visual Intelligence Dashboard</span>
+        </div>
+      </div>
+
+      <!-- Live Full-Stack Telemetry Pill -->
+      <div class="topbar-telemetry">
+        <span class="telemetry-pill green">
+          <i class="fa-solid fa-circle"></i> Datastore: 4 Tables Synced
+        </span>
+        <span class="telemetry-pill blue">
+          <i class="fa-solid fa-bolt"></i> Random Forest (120 Trees)
+        </span>
+      </div>
+
+      <div class="topbar-right">
+        <button class="btn btn-sm btn-chat-toggle" onclick="toggleChatModal()">
+          <i class="fa-solid fa-robot"></i> AI Triage Bot
+        </button>
+        <button class="btn btn-sm btn-primary" onclick="switchTab('predictor')">
+          <i class="fa-solid fa-plus"></i> New Diagnosis
         </button>
       </div>
+    </header>
+
+    <!-- Top Emergency Triage Alert Ribbon -->
+    <div class="emergency-bar">
+      <div class="emergency-content">
+        <span><i class="fa-solid fa-triangle-exclamation"></i> <strong>Clinical Emergency Notice:</strong> For acute chest pressure, unilateral facial drooping, or severe respiratory arrest, dial <strong>911 / 112</strong> immediately.</span>
+        <div class="emergency-actions">
+          <span class="pulse-badge"><i class="fa-solid fa-circle"></i> AI Triage Gateway Active</span>
+        </div>
+      </div>
     </div>
-  </header>
 
-  <!-- Main Portal Container -->
-  <main class="main-content">
+    <!-- MAIN SCROLLABLE CONTENT AREA -->
+    <main class="app-content-area">
 
-    <!-- =========================================================================
-         TAB 1: VISUAL INTELLIGENCE & ANALYTICS DASHBOARD (NEW WOW FACTOR)
-         ========================================================================= -->
-    <section id="tab-dashboard" class="tab-pane active">
-      <div class="container section-padded">
+      <!-- =======================================================================
+           MODULE 1: VISUAL INTELLIGENCE & ANALYTICS DASHBOARD
+           ======================================================================= -->
+      <section id="tab-dashboard" class="tab-pane active">
         
-        <!-- Welcome & Quick Health Index Header -->
+        <!-- Clinical Healthcare Workflow Progress Stepper (SOLVES POINT 4: WORKFLOW VISIBILITY) -->
+        <div class="workflow-stepper-card glass-card">
+          <div class="workflow-title-row">
+            <span class="subheading"><i class="fa-solid fa-route"></i> End-to-End Clinical Lifecycle</span>
+            <h3>Integrated Patient Care & Triage Pipeline</h3>
+          </div>
+          <div class="stepper-grid">
+            <div class="step-card active" onclick="switchTab('predictor')">
+              <div class="step-indicator">1</div>
+              <div class="step-meta">
+                <strong>Symptom Input</strong>
+                <span>48 Clinical Vectors</span>
+              </div>
+            </div>
+            <div class="step-card" onclick="switchTab('predictor')">
+              <div class="step-indicator">2</div>
+              <div class="step-meta">
+                <strong>AI Prediction</strong>
+                <span>97.5% Random Forest</span>
+              </div>
+            </div>
+            <div class="step-card" onclick="switchTab('appointments')">
+              <div class="step-indicator">3</div>
+              <div class="step-meta">
+                <strong>Specialist Routing</strong>
+                <span>Exact Clinical Match</span>
+              </div>
+            </div>
+            <div class="step-card" onclick="switchTab('appointments')">
+              <div class="step-indicator">4</div>
+              <div class="step-meta">
+                <strong>Slot Optimization</strong>
+                <span>-45 min Waiting Queue</span>
+              </div>
+            </div>
+            <div class="step-card" onclick="switchTab('my-bookings')">
+              <div class="step-indicator">5</div>
+              <div class="step-meta">
+                <strong>Digital QR Pass</strong>
+                <span>Priority Hospital Intake</span>
+              </div>
+            </div>
+            <div class="step-card" onclick="switchTab('records')">
+              <div class="step-indicator">6</div>
+              <div class="step-meta">
+                <strong>EHR Archival</strong>
+                <span>Prescriptions & Vitals</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Full-Stack & Database Telemetry HUD (SOLVES POINT 2: DATA STORAGE VISIBILITY) -->
+        <div class="hud-telemetry-strip">
+          <div class="hud-stat-box" onclick="switchTab('db-inspector')">
+            <div class="hud-icon bg-blue"><i class="fa-solid fa-users"></i></div>
+            <div class="hud-info">
+              <div class="hud-label">User Accounts (DB)</div>
+              <div class="hud-val" id="hud-db-users">2</div>
+              <small class="hud-sub">Patient & Doctor Profiles</small>
+            </div>
+          </div>
+
+          <div class="hud-stat-box" onclick="switchTab('doctors')">
+            <div class="hud-icon bg-purple"><i class="fa-solid fa-user-doctor"></i></div>
+            <div class="hud-info">
+              <div class="hud-label">Certified Doctors (DB)</div>
+              <div class="hud-val" id="hud-db-doctors">12</div>
+              <small class="hud-sub">All Specialties Loaded</small>
+            </div>
+          </div>
+
+          <div class="hud-stat-box" onclick="switchTab('records')">
+            <div class="hud-icon bg-green"><i class="fa-solid fa-file-medical"></i></div>
+            <div class="hud-info">
+              <div class="hud-label">EHR Health Records (DB)</div>
+              <div class="hud-val" id="hud-db-records">3</div>
+              <small class="hud-sub">Consultations & Regimens</small>
+            </div>
+          </div>
+
+          <div class="hud-stat-box" onclick="switchTab('my-bookings')">
+            <div class="hud-icon bg-amber"><i class="fa-solid fa-receipt"></i></div>
+            <div class="hud-info">
+              <div class="hud-label">Scheduled Passes (DB)</div>
+              <div class="hud-val" id="hud-db-appointments">3</div>
+              <small class="hud-sub">Optimized Priority Slots</small>
+            </div>
+          </div>
+
+          <div class="hud-stat-box" onclick="switchTab('predictor')">
+            <div class="hud-icon bg-cyan"><i class="fa-solid fa-brain"></i></div>
+            <div class="hud-info">
+              <div class="hud-label">ML Model Accuracy</div>
+              <div class="hud-val" id="hud-ml-acc">97.5%</div>
+              <small class="hud-sub">Random Forest (120 Trees)</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dashboard Hero Banner with Health Score Gauge -->
         <div class="dashboard-hero-banner glass-card">
           <div class="dash-hero-info">
-            <div class="badge-greeting"><i class="fa-solid fa-sparkles"></i> Real-Time Clinical Surveillance</div>
-            <h1 class="dash-hero-title">Welcome back, <span id="dash-user-name">Alexander</span>!</h1>
-            <p class="dash-hero-desc">Your biometric signals and recent clinical consultations indicate a <strong>Stable Vitality Index</strong>. Our AI models continuously monitor 48 symptom vectors to preempt acute exacerbations.</p>
+            <div class="badge-greeting"><i class="fa-solid fa-shield-heart"></i> Comprehensive Health Surveillance</div>
+            <h1 class="dash-hero-title">Patient Portal: <span id="dash-user-name">Alexander Wright</span></h1>
+            <p class="dash-hero-desc">Your biometric signals, recent clinical consults, and diagnostic history indicate a <strong>Stable Vitality Index</strong>. Machine learning models continuously analyze organ risk distributions to eliminate diagnostic bottlenecks.</p>
             <div class="dash-hero-actions">
               <button class="btn btn-primary" onclick="switchTab('predictor')">
-                <i class="fa-solid fa-wand-magic-sparkles"></i> New Symptom Diagnosis
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Launch AI Symptom Check
               </button>
               <button class="btn btn-secondary" onclick="openVitalsModal()">
                 <i class="fa-solid fa-heart-pulse"></i> Update Biometric Vitals
               </button>
               <button class="btn btn-outline" onclick="openLoginModal()">
-                <i class="fa-solid fa-arrow-right-to-bracket"></i> Switch Account / Demo
+                <i class="fa-solid fa-arrow-right-to-bracket"></i> Login / Switch Account
               </button>
             </div>
           </div>
@@ -127,7 +308,7 @@
             <div class="score-label-group">
               <div class="score-status-title">Vitality Health Index</div>
               <span class="status-pill green">Optimal Range</span>
-              <small style="color: var(--text-muted); display: block; margin-top: 4px;">Based on SpO2, BP & Risk Profile</small>
+              <small style="color: var(--text-muted); display: block; margin-top: 4px;">Dynamic SpO2 & BP Model</small>
             </div>
           </div>
         </div>
@@ -171,7 +352,7 @@
           </div>
         </div>
 
-        <!-- Visual Intelligence Charts Grid -->
+        <!-- Visual Intelligence Charts Grid (SOLVES POINT 5: DATA INTELLIGENCE & CHARTS) -->
         <div class="dashboard-charts-grid">
           <!-- Chart 1: Disease Risk Profile Radar Chart -->
           <div class="chart-card glass-card">
@@ -180,7 +361,7 @@
                 <i class="fa-solid fa-shield-virus chart-icon"></i>
                 <div>
                   <h3>Organ System Health Risk Matrix</h3>
-                  <p>Multi-dimensional clinical risk analysis from symptoms & history</p>
+                  <p>Multi-dimensional clinical risk analysis from symptoms & EHR</p>
                 </div>
               </div>
               <span class="badge-tag">AI Radar Model</span>
@@ -197,10 +378,10 @@
                 <i class="fa-solid fa-clock-rotate-left chart-icon"></i>
                 <div>
                   <h3>Queue Delay Reduction Benchmark</h3>
-                  <p>Traditional Hospital Walk-in vs. AI-Optimized Smart Schedule</p>
+                  <p>Walk-in Lobby Delays vs. AI-Optimized Scheduling</p>
                 </div>
               </div>
-              <span class="badge-tag green">Avg. 55% Saved</span>
+              <span class="badge-tag green">Avg. 55% Eliminated</span>
             </div>
             <div class="chart-wrapper">
               <canvas id="waitTimeComparisonChart"></canvas>
@@ -208,8 +389,79 @@
           </div>
         </div>
 
-        <!-- Recent Electronic Health Records Preview & Action Banner -->
-        <div class="dashboard-bottom-grid">
+        <!-- Chart 3 & Risk Breakdown Strip -->
+        <div class="dashboard-charts-grid" style="margin-top: 24px;">
+          <!-- Chart 3: 7-Day Physiological Vitals Trend -->
+          <div class="chart-card glass-card">
+            <div class="chart-header">
+              <div class="chart-title-group">
+                <i class="fa-solid fa-wave-square chart-icon"></i>
+                <div>
+                  <h3>7-Day Physiological Vitals Stability Trend</h3>
+                  <p>Continuous heart rate & oxygen saturation telemetric monitor</p>
+                </div>
+              </div>
+              <span class="badge-tag blue">Telemetry Active</span>
+            </div>
+            <div class="chart-wrapper">
+              <canvas id="biometricsTrendChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Organ System Risk Breakdown Meter -->
+          <div class="chart-card glass-card">
+            <div class="chart-header">
+              <div class="chart-title-group">
+                <i class="fa-solid fa-heart-pulse chart-icon"></i>
+                <div>
+                  <h3>Clinical Organ System Risk Breakdown</h3>
+                  <p>Real-time vulnerability stratification</p>
+                </div>
+              </div>
+              <span class="badge-tag">Risk Tiers</span>
+            </div>
+            <div class="organ-risk-meters-list">
+              <div class="risk-meter-item">
+                <div class="meter-labels">
+                  <span>Cardiovascular System</span>
+                  <strong class="text-green">Low Risk (18%)</strong>
+                </div>
+                <div class="meter-bar-bg"><div class="meter-bar-fill green" style="width: 18%;"></div></div>
+              </div>
+              <div class="risk-meter-item">
+                <div class="meter-labels">
+                  <span>Respiratory & Pulmonary</span>
+                  <strong class="text-green">Low Risk (22%)</strong>
+                </div>
+                <div class="meter-bar-bg"><div class="meter-bar-fill green" style="width: 22%;"></div></div>
+              </div>
+              <div class="risk-meter-item">
+                <div class="meter-labels">
+                  <span>Gastrointestinal & Hepatic</span>
+                  <strong class="text-green">Minimal (15%)</strong>
+                </div>
+                <div class="meter-bar-bg"><div class="meter-bar-fill green" style="width: 15%;"></div></div>
+              </div>
+              <div class="risk-meter-item">
+                <div class="meter-labels">
+                  <span>Neurological / Stress Index</span>
+                  <strong class="text-amber">Mild Stress (20%)</strong>
+                </div>
+                <div class="meter-bar-bg"><div class="meter-bar-fill amber" style="width: 20%;"></div></div>
+              </div>
+              <div class="risk-meter-item">
+                <div class="meter-labels">
+                  <span>Endocrine / Blood Sugar</span>
+                  <strong class="text-green">Optimal (14%)</strong>
+                </div>
+                <div class="meter-bar-bg"><div class="meter-bar-fill green" style="width: 14%;"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent EHR Activity & System Architecture Overview -->
+        <div class="dashboard-bottom-grid" style="margin-top: 24px;">
           <!-- Recent EHR Activity -->
           <div class="ehr-recent-card glass-card">
             <div class="card-header-action">
@@ -221,50 +473,48 @@
             </div>
           </div>
 
-          <!-- Quick System Diagnostic Specs for Interviewers -->
+          <!-- Engineering Architecture Highlights for Placement Viva -->
           <div class="specs-callout-card glass-card">
             <div class="specs-header">
               <i class="fa-solid fa-microchip"></i>
-              <h3>Engineering Architecture Highlights</h3>
+              <h3>Enterprise System Architecture</h3>
             </div>
             <ul class="specs-list">
               <li>
-                <strong>Machine Learning Pipeline:</strong>
-                <span>Random Forest Classifier (120 Trees) trained on 2,200 records with 97.5% test accuracy.</span>
+                <strong>Machine Learning Microservice (Flask :5001):</strong>
+                <span>Random Forest Ensemble (120 Trees) trained on 2,200 records with 97.5% test accuracy.</span>
               </li>
               <li>
-                <strong>Optimization Function:</strong>
-                <span>Multi-factor fitness model balancing patient triage urgency, doctor rating, and load distribution.</span>
+                <strong>API Gateway & Load Balancer (Node :5000):</strong>
+                <span>Multi-factor slot fitness function prioritizing acute triage cases and cutting lobby queue delay by 55%.</span>
               </li>
               <li>
-                <strong>Electronic Health Records:</strong>
-                <span>Persistent clinical history tracking diagnoses, vitals, and prescription regimens.</span>
+                <strong>Electronic Health Records (EHR) Storage:</strong>
+                <span>Persistent datastore managing patient consultations, diagnostic reports, and digital Rx.</span>
               </li>
               <li>
-                <strong>Doctor Portal:</strong>
-                <span>Live severity-prioritized emergency triage queue for clinical staff.</span>
+                <strong>Hospital Emergency Intake Portal:</strong>
+                <span>Live severity-prioritized clinician triage queue for hospital reception staff.</span>
               </li>
             </ul>
             <div class="specs-footer">
               <button class="btn btn-primary btn-sm" onclick="switchTab('doctor-portal')" style="width: 100%;">
-                <i class="fa-solid fa-user-doctor"></i> Switch to Doctor Clinical Triage View
+                <i class="fa-solid fa-hospital-user"></i> Switch to Doctor Clinical Triage View
               </button>
             </div>
           </div>
         </div>
 
-      </div>
-    </section>
+      </section>
 
-    <!-- =========================================================================
-         TAB 2: AI DISEASE PREDICTOR (WITH EXPANDED VISUAL CLASSIFICATION)
-         ========================================================================= -->
-    <section id="tab-predictor" class="tab-pane">
-      <div class="container section-padded">
+      <!-- =======================================================================
+           MODULE 2: AI DISEASE PREDICTOR & CLINICAL TRIAGE
+           ======================================================================= -->
+      <section id="tab-predictor" class="tab-pane">
         <div class="section-heading">
           <span class="subheading"><i class="fa-solid fa-wand-magic-sparkles"></i> Step 1: Intelligent Diagnosis</span>
           <h2 class="section-title">AI Disease Prediction & Clinical Triage</h2>
-          <p class="section-subtitle">Select the symptoms you are experiencing to initiate multi-factor machine learning classification.</p>
+          <p class="section-subtitle">Select the symptoms you are experiencing to initiate multi-factor machine learning classification across 48 clinical features.</p>
         </div>
 
         <div class="predictor-layout">
@@ -423,18 +673,16 @@
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- =========================================================================
-         TAB 3: SMART APPOINTMENTS
-         ========================================================================= -->
-    <section id="tab-appointments" class="tab-pane">
-      <div class="container section-padded">
+      <!-- =======================================================================
+           MODULE 3: SMART APPOINTMENT OPTIMIZATION SYSTEM
+           ======================================================================= -->
+      <section id="tab-appointments" class="tab-pane">
         <div class="section-heading">
           <span class="subheading"><i class="fa-solid fa-bolt"></i> Step 2: Intelligent Scheduling</span>
           <h2 class="section-title">Smart Appointment Optimization System</h2>
-          <p class="section-subtitle">Our multi-factor load-balancing algorithm ranks doctor slots by triage urgency, minimizing hospital queue times by up to 55 minutes.</p>
+          <p class="section-subtitle">Our multi-factor load-balancing algorithm ranks doctor slots by triage urgency, cutting lobby wait times by up to 55 minutes.</p>
         </div>
 
         <!-- Filter & Triage Bar -->
@@ -478,14 +726,12 @@
         <div class="doctor-cards-grid" id="doctors-slots-grid">
           <div class="loading-spinner"><i class="fa-solid fa-spinner fa-spin"></i> Loading optimized doctor schedules...</div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- =========================================================================
-         TAB 4: PATIENT HEALTH RECORDS (EHR / MEDICAL HISTORY) (NEW MODULE)
-         ========================================================================= -->
-    <section id="tab-records" class="tab-pane">
-      <div class="container section-padded">
+      <!-- =======================================================================
+           MODULE 4: PATIENT ELECTRONIC HEALTH RECORDS (EHR)
+           ======================================================================= -->
+      <section id="tab-records" class="tab-pane">
         <div class="section-heading">
           <span class="subheading"><i class="fa-solid fa-file-medical"></i> Enterprise EHR Module</span>
           <h2 class="section-title">Patient Electronic Health Records (EHR)</h2>
@@ -508,20 +754,18 @@
 
         <!-- Records Table / Cards -->
         <div class="records-container" id="records-list-container">
-          <div class="loading-spinner"><i class="fa-solid fa-spinner fa-spin"></i> Retrieving electronic health records...</div>
+          <div class="loading-spinner"><i class="fa-solid fa-spinner fa-spin"></i> Retrieving electronic medical records...</div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- =========================================================================
-         TAB 5: DOCTOR CLINICAL TRIAGE PORTAL (NEW CLINICIAN MODULE)
-         ========================================================================= -->
-    <section id="tab-doctor-portal" class="tab-pane">
-      <div class="container section-padded">
+      <!-- =======================================================================
+           MODULE 5: DOCTOR EMERGENCY TRIAGE & INTAKE PORTAL
+           ======================================================================= -->
+      <section id="tab-doctor-portal" class="tab-pane">
         <div class="section-heading">
           <span class="subheading"><i class="fa-solid fa-hospital-user"></i> Hospital Intake Operations</span>
-          <h2 class="section-title">Doctor & Emergency Triage Queue Management</h2>
-          <p class="section-subtitle">Real-time incoming patient admissions sorted dynamically by machine-learning triage severity.</p>
+          <h2 class="section-title">Doctor Emergency Triage Queue Management</h2>
+          <p class="section-subtitle">Real-time incoming patient admissions dynamically sorted by machine-learning triage severity.</p>
         </div>
 
         <!-- Triage Summary Counters -->
@@ -531,7 +775,7 @@
             <div class="triage-stat-label">Critical / Urgent Triage</div>
           </div>
           <div class="triage-stat-box amber">
-            <div class="triage-stat-num" id="triage-moderate-count">1</div>
+            <div class="triage-stat-num" id="triage-moderate-count">2</div>
             <div class="triage-stat-label">Standard Queue</div>
           </div>
           <div class="triage-stat-box green">
@@ -563,14 +807,12 @@
             </tbody>
           </table>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- =========================================================================
-         TAB 6: MY BOOKINGS / DIGITAL PASSES
-         ========================================================================= -->
-    <section id="tab-my-bookings" class="tab-pane">
-      <div class="container section-padded">
+      <!-- =======================================================================
+           MODULE 6: DIGITAL ADMISSION PASSES & QR TOKENS
+           ======================================================================= -->
+      <section id="tab-my-bookings" class="tab-pane">
         <div class="section-heading">
           <span class="subheading"><i class="fa-solid fa-receipt"></i> Scheduled Care Passes</span>
           <h2 class="section-title">Confirmed Appointment Passes</h2>
@@ -580,16 +822,118 @@
         <div class="appointments-list-wrapper" id="my-appointments-container">
           <div class="loading-spinner"><i class="fa-solid fa-spinner fa-spin"></i> Retrieving scheduled passes...</div>
         </div>
-      </div>
-    </section>
+      </section>
 
-  </main>
+      <!-- =======================================================================
+           MODULE 7: DOCTOR DIRECTORY & SPECIALISTS
+           ======================================================================= -->
+      <section id="tab-doctors" class="tab-pane">
+        <div class="section-heading">
+          <span class="subheading"><i class="fa-solid fa-user-doctor"></i> Medical Faculty</span>
+          <h2 class="section-title">Certified Clinical Specialists</h2>
+          <p class="section-subtitle">Browse accredited healthcare professionals across partner medical institutions.</p>
+        </div>
+
+        <div class="directory-filter-bar glass-card">
+          <div class="search-bar">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="dir-search" placeholder="Search doctor by name or hospital..." oninput="filterDoctorDirectory()">
+          </div>
+          <div class="control-group">
+            <select id="dir-specialty" class="form-select" onchange="filterDoctorDirectory()">
+              <option value="All">All Specialties</option>
+            </select>
+          </div>
+          <div class="control-group">
+            <select id="dir-rating" class="form-select" onchange="filterDoctorDirectory()">
+              <option value="0">Any Rating</option>
+              <option value="4.8">Rating 4.8+</option>
+              <option value="4.9">Rating 4.9+</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="directory-grid" id="directory-grid">
+          <div class="loading-spinner"><i class="fa-solid fa-spinner fa-spin"></i> Loading directory...</div>
+        </div>
+      </section>
+
+      <!-- =======================================================================
+           MODULE 8: FULL-STACK DATABASE & ARCHITECTURE INSPECTOR (SOLVES POINT 2)
+           ======================================================================= -->
+      <section id="tab-db-inspector" class="tab-pane">
+        <div class="section-heading">
+          <span class="subheading"><i class="fa-solid fa-database"></i> Full-Stack Data Storage Telemetry</span>
+          <h2 class="section-title">Live Database & Architecture Inspector</h2>
+          <p class="section-subtitle">Transparent real-time viewer of the active JSON persistence datastore, REST API telemetry, and machine learning pipeline.</p>
+        </div>
+
+        <!-- Architecture Callout Cards -->
+        <div class="vitals-strip-grid" style="margin-bottom: 24px;">
+          <div class="vital-card glass-card">
+            <div class="vital-icon-wrap bg-blue"><i class="fa-solid fa-server"></i></div>
+            <div class="vital-info">
+              <div class="vital-label">Backend Engine</div>
+              <div class="vital-value">Node.js Express</div>
+              <div class="vital-status text-green">REST API Gateway (Port 5000)</div>
+            </div>
+          </div>
+          <div class="vital-card glass-card">
+            <div class="vital-icon-wrap bg-purple"><i class="fa-solid fa-microchip"></i></div>
+            <div class="vital-info">
+              <div class="vital-label">Machine Learning Microservice</div>
+              <div class="vital-value">Python Flask</div>
+              <div class="vital-status text-green">Random Forest (Port 5001)</div>
+            </div>
+          </div>
+          <div class="vital-card glass-card">
+            <div class="vital-icon-wrap bg-green"><i class="fa-solid fa-hard-drive"></i></div>
+            <div class="vital-info">
+              <div class="vital-label">Datastore Type</div>
+              <div class="vital-value">Persistent JSON</div>
+              <div class="vital-status text-green">Zero-lock file system store</div>
+            </div>
+          </div>
+          <div class="vital-card glass-card">
+            <div class="vital-icon-wrap bg-amber"><i class="fa-solid fa-network-wired"></i></div>
+            <div class="vital-info">
+              <div class="vital-label">API Latency</div>
+              <div class="vital-value">~14 ms</div>
+              <div class="vital-status text-green">Non-blocking async I/O</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Database Tables Viewer -->
+        <div class="db-inspector-container glass-card">
+          <div class="db-tab-bar">
+            <button class="db-tab-btn active" id="btn-db-users" onclick="showDatabaseTableTab('users')">
+              <i class="fa-solid fa-users"></i> Users Table (users.json)
+            </button>
+            <button class="db-tab-btn" id="btn-db-doctors" onclick="showDatabaseTableTab('doctors')">
+              <i class="fa-solid fa-user-doctor"></i> Doctors Table (doctors.json)
+            </button>
+            <button class="db-tab-btn" id="btn-db-appointments" onclick="showDatabaseTableTab('appointments')">
+              <i class="fa-solid fa-receipt"></i> Appointments (appointments.json)
+            </button>
+            <button class="db-tab-btn" id="btn-db-records" onclick="showDatabaseTableTab('records')">
+              <i class="fa-solid fa-file-medical"></i> EHR Records (records.json)
+            </button>
+          </div>
+          <div class="db-json-wrapper">
+            <pre id="db-raw-json-viewer" class="db-json-code">Loading database records...</pre>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
 
   <!-- =========================================================================
-       MODALS: AUTH, VITALS, BOOKING, DIGITAL PASS
+       MODALS: AUTH, VITALS, BOOKING, DIGITAL PASS, PROFILE
        ========================================================================= -->
 
-  <!-- AUTH / LOGIN MODAL (NEW) -->
+  <!-- AUTH / LOGIN MODAL -->
   <div class="modal-backdrop" id="login-modal">
     <div class="modal-card glass-card" style="max-width: 440px;">
       <div class="modal-header">
@@ -634,7 +978,7 @@
     </div>
   </div>
 
-  <!-- PATIENT PROFILE MODAL (NEW) -->
+  <!-- PATIENT PROFILE MODAL -->
   <div class="modal-backdrop" id="profile-modal">
     <div class="modal-card glass-card" style="max-width: 480px;">
       <div class="modal-header">
@@ -659,7 +1003,7 @@
     </div>
   </div>
 
-  <!-- BIOMETRICS & VITALS UPDATE MODAL (NEW) -->
+  <!-- BIOMETRICS & VITALS UPDATE MODAL -->
   <div class="modal-backdrop" id="vitals-modal">
     <div class="modal-card glass-card" style="max-width: 480px;">
       <div class="modal-header">
@@ -704,7 +1048,7 @@
     </div>
   </div>
 
-  <!-- NEW CLINICAL RECORD MODAL (NEW) -->
+  <!-- NEW CLINICAL RECORD MODAL -->
   <div class="modal-backdrop" id="new-record-modal">
     <div class="modal-card glass-card">
       <div class="modal-header">
