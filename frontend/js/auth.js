@@ -1,6 +1,6 @@
 /**
  * Authentication & User Session Module
- * Manages Patient/Doctor Sessions, Profile Modal, Vitals Modal, and 1-Click Demo Logins.
+ * Manages Patient/Doctor/Admin Sessions, Profile Modal, Vitals Modal, and 1-Click Demo Logins.
  */
 
 // Default active session: Demo Patient
@@ -11,10 +11,11 @@ let currentUser = {
   role: "patient",
   age: 34,
   gender: "Male",
-  phone: "+1 (555) 234-8901",
+  phone: "+91 98765 43210",
   bloodGroup: "O+",
   allergies: "Penicillin, Peanuts",
-  emergencyContact: "Sarah Wright (+1 555-902-1144)",
+  emergencyContact: "Sarah Wright (+91 98765 11223)",
+  consentGiven: true,
   healthScore: 88,
   vitals: {
     bloodPressure: "120/80 mmHg",
@@ -37,7 +38,11 @@ function updateAuthUI() {
   if (dashNameEl) dashNameEl.textContent = currentUser.name.split(' ')[0];
 
   if (roleEl) {
-    if (currentUser.role === 'doctor') {
+    if (currentUser.role === 'admin') {
+      roleEl.textContent = `Admin • System Security`;
+      roleEl.className = 'user-nav-role admin';
+      if (avatarEl) avatarEl.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=120';
+    } else if (currentUser.role === 'doctor') {
       roleEl.textContent = `Doctor • ${currentUser.specialty || 'Faculty'}`;
       roleEl.className = 'user-nav-role doctor';
       if (avatarEl) avatarEl.src = 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=120';
@@ -67,13 +72,30 @@ function updateAuthUI() {
 
   const roleBtnLabel = document.getElementById('btn-role-switch-label');
   if (roleBtnLabel) {
-    roleBtnLabel.textContent = currentUser.role === 'doctor' ? 'Switch to Patient' : 'Switch to Doctor';
+    if (currentUser.role === 'patient') roleBtnLabel.textContent = 'Switch to Doctor';
+    else if (currentUser.role === 'doctor') roleBtnLabel.textContent = 'Switch to Admin';
+    else roleBtnLabel.textContent = 'Switch to Patient';
   }
 }
 
 // 1-Click Demo Login
 function loginDemo(role) {
-  if (role === 'doctor') {
+  if (role === 'admin') {
+    currentUser = {
+      id: "usr-03",
+      name: "Dr. Ramesh Rao",
+      email: "admin@healthpulse.ai",
+      role: "admin",
+      title: "Chief Medical Information Officer",
+      hospital: "HealthPulse Central Administration",
+      licenseNo: "ADMIN-SYS-001",
+      healthScore: 99
+    };
+    showToast('Logged in as Administrator (Dr. Ramesh Rao)', 'success');
+    closeLoginModal();
+    updateAuthUI();
+    switchTab('admin-portal');
+  } else if (role === 'doctor') {
     currentUser = {
       id: "usr-02",
       name: "Dr. Sarah Jenkins",
@@ -81,7 +103,7 @@ function loginDemo(role) {
       role: "doctor",
       specialty: "Pulmonologist",
       hospital: "Metro Heart & Lung Institute",
-      licenseNo: "MED-NY-89412",
+      licenseNo: "MCI-PULM-89412",
       experience: 14,
       rating: 4.9,
       healthScore: 96
@@ -98,10 +120,11 @@ function loginDemo(role) {
       role: "patient",
       age: 34,
       gender: "Male",
-      phone: "+1 (555) 234-8901",
+      phone: "+91 98765 43210",
       bloodGroup: "O+",
       allergies: "Penicillin, Peanuts",
-      emergencyContact: "Sarah Wright (+1 555-902-1144)",
+      emergencyContact: "Sarah Wright (+91 98765 11223)",
+      consentGiven: true,
       healthScore: 88,
       vitals: {
         bloodPressure: "120/80 mmHg",
@@ -130,14 +153,36 @@ function openProfileModal() {
   const content = document.getElementById('profile-details-content');
   if (!content) return;
 
-  if (currentUser.role === 'doctor') {
+  if (currentUser.role === 'admin') {
+    content.innerHTML = `
+      <div class="profile-header-summary">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=120" class="doctor-avatar" style="width: 56px; height: 56px;">
+        <div>
+          <h4>${escapeHtml(currentUser.name)}</h4>
+          <div style="color: #a855f7; font-weight: 600; font-size: 0.85rem;">${escapeHtml(currentUser.title)}</div>
+          <div style="font-size: 0.75rem; color: var(--text-muted);">${escapeHtml(currentUser.hospital)}</div>
+        </div>
+      </div>
+      <div class="profile-grid-info">
+        <div class="profile-field"><span>System Role:</span> <strong style="color: #c084fc;">Super Administrator</strong></div>
+        <div class="profile-field"><span>Audit Clearance:</span> <strong>Level 4 Full Clearance</strong></div>
+        <div class="profile-field"><span>Email:</span> <strong>${currentUser.email}</strong></div>
+        <div class="profile-field"><span>Security Token:</span> <strong style="color: var(--success);"><i class="fa-solid fa-lock"></i> MFA Hardware Enforced</strong></div>
+      </div>
+      <div style="margin-top: 16px; display: flex; gap: 8px;">
+        <button class="btn btn-outline btn-sm" onclick="closeProfileModal(); switchTab('admin-portal');">
+          <i class="fa-solid fa-shield-halved"></i> Open Audit Dashboard
+        </button>
+      </div>
+    `;
+  } else if (currentUser.role === 'doctor') {
     content.innerHTML = `
       <div class="profile-header-summary">
         <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=120" class="doctor-avatar" style="width: 56px; height: 56px;">
         <div>
           <h4>${escapeHtml(currentUser.name)}</h4>
           <div style="color: var(--primary); font-weight: 600; font-size: 0.85rem;">${escapeHtml(currentUser.specialty)} • ${escapeHtml(currentUser.hospital)}</div>
-          <div style="font-size: 0.75rem; color: var(--text-muted);">License: ${currentUser.licenseNo || 'MED-NY-89412'}</div>
+          <div style="font-size: 0.75rem; color: var(--text-muted);">License: ${currentUser.licenseNo || 'MCI-PULM-89412'}</div>
         </div>
       </div>
       <div class="profile-grid-info">
@@ -145,6 +190,11 @@ function openProfileModal() {
         <div class="profile-field"><span>Rating:</span> <strong>⭐ ${currentUser.rating || 4.9} / 5.0</strong></div>
         <div class="profile-field"><span>Email:</span> <strong>${currentUser.email}</strong></div>
         <div class="profile-field"><span>Status:</span> <strong style="color: var(--success);">Attending Faculty</strong></div>
+      </div>
+      <div style="margin-top: 16px; display: flex; gap: 8px;">
+        <button class="btn btn-outline btn-sm" onclick="closeProfileModal(); switchTab('doctor-portal');">
+          <i class="fa-solid fa-hospital-user"></i> Go to Triage Queue
+        </button>
       </div>
     `;
   } else {
@@ -163,6 +213,14 @@ function openProfileModal() {
         <div class="profile-field"><span>Vitality Score:</span> <strong>${currentUser.healthScore || 88} / 100</strong></div>
         <div class="profile-field"><span>Resting Vitals:</span> <strong>${currentUser.vitals?.bloodPressure || '120/80'} | ${currentUser.vitals?.spO2 || '98%'}</strong></div>
       </div>
+      <div style="margin-top: 16px; display: flex; gap: 8px; flex-wrap: wrap;">
+        <button class="btn btn-primary btn-sm" onclick="closeProfileModal(); downloadEhrDossier();">
+          <i class="fa-solid fa-file-export"></i> Export Health Data (DPDP Act)
+        </button>
+        <button class="btn btn-outline btn-sm" onclick="closeProfileModal(); openPrivacyModal();">
+          <i class="fa-solid fa-user-lock"></i> Privacy & Consent Controls
+        </button>
+      </div>
     `;
   }
 
@@ -170,6 +228,13 @@ function openProfileModal() {
 }
 function closeProfileModal() {
   document.getElementById('profile-modal')?.classList.remove('open');
+}
+
+function openPrivacyModal() {
+  document.getElementById('privacy-modal')?.classList.add('open');
+}
+function closePrivacyModal() {
+  document.getElementById('privacy-modal')?.classList.remove('open');
 }
 
 function openVitalsModal() {
@@ -214,7 +279,6 @@ async function handleVitalsUpdate(e) {
     }
   } catch (err) {
     console.error('Error updating vitals:', err);
-    // Offline simulation update
     currentUser.vitals = { bloodPressure: `${bp} mmHg`, heartRate: `${hr} bpm`, spO2: `${spo2}%`, bloodGlucose: `${glucose} mg/dL` };
     currentUser.healthScore = parseInt(spo2) >= 98 ? 92 : 82;
     updateAuthUI();
@@ -241,7 +305,8 @@ async function handleAuthSubmit(e) {
       updateAuthUI();
       closeLoginModal();
       showToast(data.message, 'success');
-      if (currentUser.role === 'doctor') switchTab('doctor-portal');
+      if (currentUser.role === 'admin') switchTab('admin-portal');
+      else if (currentUser.role === 'doctor') switchTab('doctor-portal');
       else switchTab('dashboard');
     } else {
       showToast(data.error || 'Invalid credentials.', 'error');

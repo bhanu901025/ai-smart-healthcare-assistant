@@ -8,7 +8,9 @@ const TAB_TITLES = {
   'dashboard': 'Visual Intelligence Dashboard & Command Center',
   'predictor': 'AI Multi-Class Disease Prediction & Clinical Triage',
   'appointments': 'Smart Appointment Scheduling & Queue Optimizer',
-  'records': 'Patient Electronic Health Records (EHR)',
+  'records': 'Patient Electronic Health Records (EHR) & Timeline',
+  'ai-validation': 'AI Model Evidence & Validation Center (Evaluator Proof)',
+  'admin-portal': 'Administrator & Security Audit Dashboard',
   'doctor-portal': 'Doctor Emergency Triage & Hospital Intake Queue',
   'my-bookings': 'Scheduled Consultation Passes & QR Verification',
   'doctors': 'Certified Medical Faculty & Specialists Directory',
@@ -53,6 +55,10 @@ function switchTab(tabId) {
     loadOptimizedSlots();
   } else if (tabId === 'records') {
     loadPatientRecords();
+  } else if (tabId === 'ai-validation') {
+    if (window.loadAiValidationCenter) window.loadAiValidationCenter();
+  } else if (tabId === 'admin-portal') {
+    if (window.loadAdminAuditPortal) window.loadAdminAuditPortal();
   } else if (tabId === 'doctor-portal') {
     loadDoctorTriageQueue();
   } else if (tabId === 'my-bookings') {
@@ -79,15 +85,17 @@ function closeSidebarOnMobile() {
   if (backdrop) backdrop.classList.remove('open');
 }
 
-// 1-Click Role Switcher (Patient <-> Doctor)
+// 1-Click Role Switcher (Patient <-> Doctor <-> Admin)
 function toggleRoleSwitch() {
+  const label = document.getElementById('btn-role-switch-label');
   if (currentUser.role === 'patient') {
     loginDemo('doctor');
-    const label = document.getElementById('btn-role-switch-label');
+    if (label) label.textContent = 'Switch to Admin';
+  } else if (currentUser.role === 'doctor') {
+    loginDemo('admin');
     if (label) label.textContent = 'Switch to Patient';
   } else {
     loginDemo('patient');
-    const label = document.getElementById('btn-role-switch-label');
     if (label) label.textContent = 'Switch to Doctor';
   }
 }

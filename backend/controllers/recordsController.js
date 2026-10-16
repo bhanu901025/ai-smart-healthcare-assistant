@@ -1,10 +1,12 @@
 /**
  * Patient Health Records (EHR) Controller
  * Serves diagnostic history, medical prescriptions, laboratory notes, and export summaries.
+ * Enforces role-based patient record isolation & audit tracking.
  */
 
 const fs = require('fs');
 const path = require('path');
+const { logAuditEvent } = require('./auditController');
 
 const RECORDS_PATH = path.join(__dirname, '..', 'data', 'records.json');
 
@@ -31,8 +33,18 @@ function saveRecords(records) {
 
 exports.getPatientRecords = (req, res) => {
   try {
-    const { patientId = 'usr-01', search } = req.query;
-    let records = getRecords().filter(r => r.patientId === patientId);
+    const callerId = req.headers['x-user-id'] || 'usr-01';
+    const callerRole = req.headers['x-user-role'] || 'patient';
+    const { patientId, search } = req.query;
+
+    let records = getRecords();
+
+    // Patient record isolation: Patients can strictly view only their own records
+    if (callerRole === 'patient') {
+      records = records.filter(r => r.patientId === callerId);
+    } else if (patientId) {
+      records = records.filter(r => r.patientId === patientId);
+    }
 
     if (search) {
       const q = search.toLowerCase();
@@ -56,12 +68,40 @@ exports.getPatientRecords = (req, res) => {
 exports.getRecordById = (req, res) => {
   try {
     const { id } = req.params;
+    const callerId = req.headers['x-user-id'] || 'usr-01';
+    const callerRole = req.headers['x-user-role'] || 'patient';
+    const callerName = req.headers['x-user-name'] || 'User';
+
     const records = getRecords();
     const record = records.find(r => r.id === id);
 
     if (!record) {
       return res.status(404).json({ success: false, error: 'Medical record not found.' });
     }
+
+    // Patient record isolation check
+    if (callerRole === 'patient' && record.patientId !== callerId) {
+      logAuditEvent({
+        action: 'UNAUTHORIZED_RECORD_ACCESS_ATTEMPT',
+        actorId: callerId,
+        actorName: callerName,
+        actorRole: callerRole,
+        resource: `/api/records/${id}`,
+        status: 'FORBIDDEN',
+        details: `Patient attempted to access unauthorized record ${id} belonging to patient ${record.patientId}`
+      });
+      return res.status(403).json({ success: false, error: 'Access denied: You are not authorized to view another patient\'s medical record.' });
+    }
+
+    logAuditEvent({
+      action: 'EHR_RECORD_ACCESSED',
+      actorId: callerId,
+      actorName: callerName,
+      actorRole: callerRole,
+      resource: `/api/records/${id}`,
+      status: 'SUCCESS',
+      details: `EHR record ${id} viewed by ${callerRole} ${callerName}`
+    });
 
     return res.json({ success: true, record });
   } catch (err) {
@@ -117,6 +157,16 @@ exports.createRecord = (req, res) => {
 
     records.unshift(newRecord);
     saveRecords(records);
+
+    logAuditEvent({
+      action: 'EHR_RECORD_CREATED',
+      actorId: patientId,
+      actorName: patientName,
+      actorRole: 'system',
+      resource: `/api/records`,
+      status: 'SUCCESS',
+      details: `New diagnostic record ${newRecord.id} generated for ${diagnosis} (${severity})`
+    });
 
     return res.status(201).json({
       success: true,

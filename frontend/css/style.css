@@ -2109,3 +2109,354 @@ p {
     bottom: 84px;
   }
 }
+
+/* ==========================================================================
+   AI VALIDATION, XAI HEATMAP, TIMELINE, AUDIT & MULTILINGUAL EXTENSIONS
+   ========================================================================== */
+
+/* Language Selector Pills */
+.lang-selector-group {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(15, 23, 42, 0.06);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-full);
+  padding: 2px;
+  gap: 2px;
+}
+
+.lang-pill {
+  border: none;
+  background: transparent;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.lang-pill:hover {
+  color: var(--primary);
+}
+
+.lang-pill.active {
+  background: var(--primary);
+  color: #ffffff;
+  box-shadow: 0 1px 3px rgba(2, 132, 199, 0.3);
+}
+
+/* User Roles Badges */
+.user-nav-role.admin {
+  background: #f3e8ff;
+  color: #7e22ce;
+  border: 1px solid #d8b4fe;
+}
+
+.user-role-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.user-role-badge.role-patient { background: #dcfce7; color: #15803d; }
+.user-role-badge.role-doctor { background: #e0f2fe; color: #0369a1; }
+.user-role-badge.role-admin { background: #f3e8ff; color: #7e22ce; }
+
+.badge-self {
+  font-size: 0.65rem;
+  background: #fef08a;
+  color: #854d0e;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 600;
+  margin-left: 6px;
+}
+
+/* 22x22 Confusion Matrix Heatmap */
+.cm-table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: 480px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background: #0f172a;
+}
+
+.cm-heatmap-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: monospace;
+  font-size: 0.72rem;
+  text-align: center;
+}
+
+.cm-heatmap-table th, .cm-heatmap-table td {
+  padding: 6px 4px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  min-width: 38px;
+  max-width: 48px;
+  white-space: nowrap;
+}
+
+.cm-heatmap-table thead th {
+  background: #1e293b;
+  color: #94a3b8;
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  font-size: 0.65rem;
+}
+
+.cm-row-label {
+  background: #1e293b;
+  color: #cbd5e1;
+  text-align: left;
+  padding: 6px 10px;
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  min-width: 130px;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.7rem;
+}
+
+.cm-corner {
+  background: #0f172a !important;
+  color: #38bdf8 !important;
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 3 !important;
+}
+
+.cm-cell {
+  transition: transform 0.1s ease;
+}
+
+.cm-cell:hover {
+  transform: scale(1.15);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.8);
+  z-index: 4;
+  position: relative;
+}
+
+.cm-zero {
+  color: #334155;
+  background: #0b1120;
+}
+
+/* Formula & Math Callout Card */
+.math-formula-card {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  color: #f8fafc;
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  margin-bottom: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: var(--shadow-lg);
+}
+
+.formula-display-box {
+  background: rgba(0, 0, 0, 0.35);
+  padding: 16px 20px;
+  border-radius: var(--radius-md);
+  border-left: 4px solid #38bdf8;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #38bdf8;
+  margin: 14px 0;
+  overflow-x: auto;
+}
+
+/* Patient Chronological Health Timeline */
+.timeline-container {
+  position: relative;
+  padding-left: 28px;
+  margin-top: 16px;
+}
+
+.timeline-container::before {
+  content: '';
+  position: absolute;
+  top: 12px;
+  bottom: 12px;
+  left: 10px;
+  width: 2px;
+  background: linear-gradient(to bottom, #0284c7, #94a3b8);
+}
+
+.timeline-event {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: -28px;
+  top: 4px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  z-index: 2;
+}
+
+.timeline-content {
+  padding: 16px;
+  border-left: 3px solid var(--primary);
+}
+
+.timeline-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.timeline-date {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.timeline-title {
+  font-size: 1.05rem;
+  margin-bottom: 6px;
+  color: var(--text-primary);
+}
+
+.timeline-notes {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.timeline-footer {
+  display: flex;
+  gap: 16px;
+  border-top: 1px solid var(--border-color);
+  padding-top: 8px;
+}
+
+/* Audit Logs Table */
+.audit-logs-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.audit-logs-table th, .audit-logs-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border-color);
+  text-align: left;
+}
+
+.audit-logs-table th {
+  background: rgba(15, 23, 42, 0.03);
+  font-weight: 600;
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.audit-id-tag {
+  font-family: monospace;
+  font-weight: 700;
+  color: var(--primary);
+  background: var(--primary-light);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+}
+
+.action-code {
+  font-family: monospace;
+  font-size: 0.8rem;
+  color: var(--text-primary);
+}
+
+.audit-details-cell {
+  max-width: 320px;
+}
+
+.audit-ip {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-top: 3px;
+}
+
+.dpdp-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+}
+
+.dpdp-status-pill.consented {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.dpdp-status-pill.revoked {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.admin-user-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  margin-bottom: 10px;
+  gap: 16px;
+}
+
+.user-cell-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.user-avatar-sm {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--primary-light);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.badge-green { background: #dcfce7; color: #15803d; font-weight: 700; }
+.badge-blue { background: #e0f2fe; color: #0369a1; font-weight: 700; }
+.badge-amber { background: #fef3c7; color: #b45309; font-weight: 700; }
+.badge-red { background: #fee2e2; color: #b91c1c; font-weight: 700; }
+
+.wait-badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-weight: 700;
+}
+
+.wait-badge.old { background: #fee2e2; color: #b91c1c; }
+.wait-badge.new { background: #dcfce7; color: #15803d; }

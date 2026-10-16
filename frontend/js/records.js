@@ -1,6 +1,7 @@
 /**
  * Patient Health Records (EHR) & Doctor Clinical Triage Module
- * Manages diagnostic history, clinical notes, and the clinician hospital intake queue.
+ * Manages diagnostic history, clinical notes, patient health timeline,
+ * DPDP Act data exports, and the clinician hospital intake queue.
  */
 
 // Load all patient EHR records
@@ -13,10 +14,18 @@ async function loadPatientRecords() {
   container.innerHTML = `<div class="loading-spinner"><i class="fa-solid fa-spinner fa-spin"></i> Retrieving electronic medical records...</div>`;
 
   try {
-    const res = await fetch(`/api/records?patientId=${currentUser.id}&search=${encodeURIComponent(searchQuery)}`);
+    const res = await fetch(`/api/records?patientId=${currentUser.id}&search=${encodeURIComponent(searchQuery)}`, {
+      headers: {
+        'x-user-id': currentUser.id,
+        'x-user-role': currentUser.role
+      }
+    });
     const data = await res.json();
 
     if (data.success && data.records) {
+      // Also render the interactive chronological health timeline
+      renderPatientTimeline(data.records);
+
       if (data.records.length === 0) {
         container.innerHTML = `
           <div class="empty-state">
@@ -81,6 +90,103 @@ async function loadPatientRecords() {
   }
 }
 
+/**
+ * Standout Feature A: Interactive Patient Health Chronological Timeline
+ */
+function renderPatientTimeline(records) {
+  const timelineEl = document.getElementById('patient-health-timeline');
+  if (!timelineEl) return;
+
+  if (!records || records.length === 0) {
+    timelineEl.innerHTML = `<div class="text-muted text-sm">No timeline entries recorded yet.</div>`;
+    return;
+  }
+
+  // Sort descending by date
+  const sorted = [...records].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  timelineEl.innerHTML = sorted.map((item, idx) => {
+    const isFirst = idx === 0;
+    const sevColor = item.severity === 'High' || item.severity === 'Critical' ? '#ef4444' : (item.severity === 'Moderate' ? '#f59e0b' : '#10b981');
+
+    return `
+      <div class="timeline-event ${isFirst ? 'timeline-latest' : ''}">
+        <div class="timeline-dot" style="background-color: ${sevColor}; box-shadow: 0 0 10px ${sevColor}66;">
+          <i class="fa-solid ${isFirst ? 'fa-star' : 'fa-check'}"></i>
+        </div>
+        <div class="timeline-content glass-card">
+          <div class="timeline-header">
+            <span class="timeline-date"><i class="fa-regular fa-clock"></i> ${item.date}</span>
+            <span class="timeline-severity" style="color: ${sevColor}; font-weight: 600;">${item.severity}</span>
+          </div>
+          <h4 class="timeline-title">${escapeHtml(item.diagnosis)}</h4>
+          <p class="timeline-notes">${escapeHtml(item.clinicalNotes)}</p>
+          <div class="timeline-footer">
+            <span class="text-xs text-muted"><i class="fa-solid fa-user-doctor"></i> ${escapeHtml(item.doctorName)} (${escapeHtml(item.specialty)})</span>
+            <span class="text-xs text-muted"><i class="fa-solid fa-heart-pulse"></i> BP: ${item.vitalSigns?.bloodPressure || 'Normal'}</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+/**
+ * Standout Feature: Download Complete Medical Dossier (DPDP Act 2023 Compliant)
+ */
+async function downloadEhrDossier() {
+  try {
+    showToast('Compiling verified EHR package & audit trail...', 'info');
+    const res = await fetch('/api/patient/export-data', {
+      headers: { 'x-user-id': currentUser.id }
+    });
+    const result = await res.json();
+
+    if (!result.success) {
+      showToast('Export failed: ' + (result.error || 'Server error'), 'error');
+      return;
+    }
+
+    const jsonStr = JSON.stringify(result.data, null, 2);
+    const blob = new Blob([jsonStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `HealthPulse_EHR_Dossier_${currentUser.id}_${Date.now()}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    showToast('EHR dossier downloaded successfully under DPDP Act 2023!', 'success');
+  } catch (err) {
+    console.error('Failed to download dossier:', err);
+    showToast('Failed to download EHR dossier.', 'error');
+  }
+}
+
+/**
+ * DPDP Consent Update
+ */
+async function updateConsentStatus(granted) {
+  try {
+    const res = await fetch('/api/patient/consent', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-user-id': currentUser.id },
+      body: JSON.stringify({ consentGiven: granted })
+    });
+    const data = await res.json();
+    if (data.success) {
+      currentUser.consentGiven = granted;
+      showToast(`Privacy consent ${granted ? 'granted' : 'revoked'}.`, 'success');
+      const toggleEl = document.getElementById('dpdp-consent-toggle');
+      if (toggleEl) toggleEl.checked = granted;
+    }
+  } catch (err) {
+    showToast('Failed to update consent status.', 'error');
+  }
+}
+
 function filterRecords() {
   loadPatientRecords();
 }
@@ -139,12 +245,12 @@ async function savePredictionToEHR() {
 function openNewRecordModal() {
   document.getElementById('new-record-modal')?.classList.add('open');
 }
+
 function closeNewRecordModal() {
   document.getElementById('new-record-modal')?.classList.remove('open');
 }
 
-// Handle Manual Record Submission
-async function handleNewRecordSubmit(e) {
+async function handleCreateRecord(e) {
   e.preventDefault();
   const diagnosis = document.getElementById('rec-diagnosis').value;
   const specialist = document.getElementById('rec-specialist').value;
@@ -190,7 +296,6 @@ async function loadDoctorTriageQueue() {
     const data = await res.json();
 
     if (data.success && data.queue) {
-      // Update counters
       const critEl = document.getElementById('triage-critical-count');
       const modEl = document.getElementById('triage-moderate-count');
       if (critEl) critEl.textContent = data.criticalTriageCount;
@@ -201,7 +306,7 @@ async function loadDoctorTriageQueue() {
         return;
       }
 
-      tbody.innerHTML = data.queue.map((item, idx) => {
+      tbody.innerHTML = data.queue.map(item => {
         const isCritical = (item.urgencyScore || 2) >= 3;
         const priorityBadge = isCritical ? 
           `<span class="badge-priority high"><i class="fa-solid fa-triangle-exclamation"></i> PRIORITY 1</span>` : 

@@ -293,6 +293,9 @@ async function loadMyAppointments() {
             <button class="btn btn-outline btn-sm" onclick='viewStoredPass(${JSON.stringify(apt).replace(/'/g, "&#39;")})'>
               <i class="fa-solid fa-qrcode"></i> View Pass
             </button>
+            <button class="btn btn-outline btn-sm" onclick="rescheduleAppointmentPrompt('${apt.id}', '${escapeHtml(apt.doctorName)}')">
+              <i class="fa-solid fa-arrows-rotate"></i> Reschedule
+            </button>
             <button class="btn btn-outline btn-sm" style="color: var(--danger); border-color: #fecaca;" onclick="cancelAppointment('${apt.id}')">
               <i class="fa-solid fa-trash-can"></i> Cancel
             </button>
@@ -326,6 +329,31 @@ async function cancelAppointment(aptId) {
     }
   } catch (err) {
     console.error('Error canceling appointment:', err);
+  }
+}
+
+// Reschedule appointment
+async function rescheduleAppointmentPrompt(aptId, doctorName) {
+  const newTime = prompt(`Reschedule appointment ${aptId} with ${doctorName}.\nEnter desired slot (e.g. 02:00 PM, 03:30 PM, 04:30 PM):`, '03:30 PM');
+  if (!newTime || !newTime.trim()) return;
+
+  try {
+    const res = await fetch(`/api/appointments/${aptId}/reschedule`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ newSlotTime: newTime.trim(), newSlotDate: 'Today' })
+    });
+    const data = await res.json();
+    if (data.success) {
+      showToast(`Appointment rescheduled to ${newTime}!`, 'success');
+      loadMyAppointments();
+      loadOptimizedSlots();
+    } else {
+      showToast(data.error || 'Failed to reschedule appointment.', 'error');
+    }
+  } catch (err) {
+    console.error('Error rescheduling appointment:', err);
+    showToast('Failed to connect to rescheduling service.', 'error');
   }
 }
 

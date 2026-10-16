@@ -1,20 +1,26 @@
 """
-AI-Powered Smart Healthcare Assistant - Machine Learning Model Trainer
+AI-Powered Smart Healthcare Assistant - Machine Learning Model Trainer & Validator
 Trains a Random Forest Classifier for Disease Prediction based on clinical symptoms.
+Computes and exports full evaluation metrics:
+  - Train/Test Split (80/20 Stratified)
+  - Precision, Recall, F1-Score per disease class
+  - 22x22 Confusion Matrix
+  - Gini Feature Importances (Top Symptoms)
+  - 5-Fold Stratified Cross-Validation scores
 Outputs:
   - disease_model.joblib: Serialized trained classification pipeline
-  - model_metadata.json: Symptom vocabulary, disease intelligence, specialist map, metrics
+  - model_metadata.json: Comprehensive validation report & clinical metadata
 """
 
 import json
 import os
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split, cross_val_score
-from sklearn.metrics import accuracy_score, classification_report
+from sklearn.model_selection import train_test_split, cross_val_score, StratifiedKFold
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 import joblib
 
-# Set random seed for reproducibility
+# Set random seed for scientific reproducibility
 np.random.seed(42)
 
 # Full master symptom vocabulary (48 symptoms)
@@ -31,7 +37,6 @@ SYMPTOMS = [
     "fast_heart_rate", "dizziness", "swelling_joints"
 ]
 
-# Disease intelligence database: Clinical mappings, severity, specialist, precautions, diet
 DISEASE_PROFILES = {
     "Common Cold": {
         "core_symptoms": ["continuous_sneezing", "cough", "headache", "fatigue", "chills"],
@@ -409,11 +414,7 @@ DISEASE_PROFILES = {
     }
 }
 
-def generate_synthetic_dataset(samples_per_disease=90):
-    """
-    Generates realistic patient samples incorporating primary and secondary symptoms,
-    biological variance, and stochastic noise.
-    """
+def generate_synthetic_dataset(samples_per_disease=100):
     X_samples = []
     y_labels = []
 
@@ -427,7 +428,7 @@ def generate_synthetic_dataset(samples_per_disease=90):
         for _ in range(samples_per_disease):
             patient_vector = np.zeros(num_symptoms, dtype=int)
 
-            # High probability of having core symptoms (85% - 100%)
+            # High probability of having core symptoms (85% - 98%)
             for sym in core:
                 if np.random.rand() > 0.12:
                     patient_vector[symptom_to_idx[sym]] = 1
@@ -437,14 +438,14 @@ def generate_synthetic_dataset(samples_per_disease=90):
                 for sym in core[:2]:
                     patient_vector[symptom_to_idx[sym]] = 1
 
-            # Moderate probability of having optional symptoms (30% - 60%)
+            # Moderate probability of having optional symptoms (30% - 55%)
             for sym in optional:
                 if np.random.rand() < 0.45:
                     patient_vector[symptom_to_idx[sym]] = 1
 
-            # Small random background noise (1% chance of unrelated minor symptom)
-            noise_idx = np.random.randint(0, num_symptoms)
-            if np.random.rand() < 0.05:
+            # Small random background noise (minor unrelated symptoms, simulating biological variance)
+            if np.random.rand() < 0.08:
+                noise_idx = np.random.randint(0, num_symptoms)
                 patient_vector[noise_idx] = 1
 
             X_samples.append(patient_vector)
@@ -453,20 +454,25 @@ def generate_synthetic_dataset(samples_per_disease=90):
     return np.array(X_samples), np.array(y_labels)
 
 def train_and_export():
-    print("=" * 60)
-    print("  AI-Powered Smart Healthcare Assistant: ML Model Training  ")
-    print("=" * 60)
+    print("=" * 65)
+    print("  HealthPulse AI: Clinical Model Training & Comprehensive Validation  ")
+    print("=" * 65)
 
-    print(f"Generating synthetic clinical dataset for {len(DISEASE_PROFILES)} diseases...")
-    X, y = generate_synthetic_dataset(samples_per_disease=100)
-    print(f"Total dataset shape: {X.shape[0]} patient records, {X.shape[1]} symptom features.")
+    num_diseases = len(DISEASE_PROFILES)
+    samples_per_disease = 100
+    total_samples = num_diseases * samples_per_disease
 
-    # Split dataset
+    print(f"Generating clinical synthetic dataset: {total_samples} patient records across {num_diseases} diseases.")
+    X, y = generate_synthetic_dataset(samples_per_disease=samples_per_disease)
+
+    # 80/20 Stratified Train/Test Split
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.2, random_state=42, stratify=y
     )
 
-    print("\nTraining Random Forest Ensemble Classifier...")
+    print(f"Training set: {X_train.shape[0]} samples | Test holdout: {X_test.shape[0]} samples")
+
+    # Random Forest Classifier (120 Trees)
     model = RandomForestClassifier(
         n_estimators=120,
         max_depth=16,
@@ -476,46 +482,98 @@ def train_and_export():
     )
     model.fit(X_train, y_train)
 
-    # Evaluation
+    # Predictions & Detailed Evaluation
     y_pred = model.predict(X_test)
     acc = accuracy_score(y_test, y_pred)
-    cv_scores = cross_val_score(model, X, y, cv=5)
 
-    print(f"\nModel Test Accuracy: {acc * 100:.2f}%")
-    print(f"5-Fold Cross-Validation Accuracy: {cv_scores.mean() * 100:.2f}% (+/- {cv_scores.std() * 100:.2f}%)")
+    # 5-Fold Stratified Cross Validation
+    cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+    cv_scores = cross_val_score(model, X, y, cv=cv)
 
-    # Serialize Model
+    # Classification Report (Precision, Recall, F1 per class)
+    classes_list = sorted(list(DISEASE_PROFILES.keys()))
+    clf_report = classification_report(y_test, y_pred, target_names=classes_list, output_dict=True)
+
+    # Confusion Matrix
+    cm = confusion_matrix(y_test, y_pred, labels=classes_list)
+
+    # Feature Importances (Gini Index)
+    importances = model.feature_importances_
+    sorted_feat_indices = np.argsort(importances)[::-1]
+    top_features = [
+        {"symptom": SYMPTOMS[i], "importance": round(float(importances[i]) * 100, 2)}
+        for i in sorted_feat_indices[:15]
+    ]
+
+    print(f"\nHoldout Test Accuracy: {acc * 100:.2f}%")
+    print(f"5-Fold Cross-Validation: {cv_scores.mean() * 100:.2f}% (+/- {cv_scores.std() * 100:.2f}%)")
+
+    # Format class-wise metrics for frontend display
+    class_metrics = []
+    for cls_name in classes_list:
+        metrics = clf_report.get(cls_name, {})
+        class_metrics.append({
+            "disease": cls_name,
+            "precision": round(metrics.get("precision", 0) * 100, 1),
+            "recall": round(metrics.get("recall", 0) * 100, 1),
+            "f1_score": round(metrics.get("f1-score", 0) * 100, 1),
+            "support": int(metrics.get("support", 0))
+        })
+
+    # Save Model
     script_dir = os.path.dirname(os.path.abspath(__file__))
     model_path = os.path.join(script_dir, "disease_model.joblib")
     joblib.dump(model, model_path)
-    print(f"Model successfully saved to: {model_path}")
+    print(f"Trained model saved to: {model_path}")
 
-    # Export Metadata for Node.js / Python API
+    # Build Comprehensive Metadata
     metadata = {
-        "version": "1.0.0",
+        "version": "2.0.0",
         "algorithm": "RandomForestClassifier",
         "num_estimators": 120,
-        "test_accuracy": round(float(acc) * 100, 2),
-        "cv_accuracy": round(float(cv_scores.mean()) * 100, 2),
+        "max_depth": 16,
+        "dataset_info": {
+            "total_records": int(total_samples),
+            "train_samples": int(X_train.shape[0]),
+            "test_samples": int(X_test.shape[0]),
+            "split_ratio": "80/20 Stratified",
+            "features_count": len(SYMPTOMS),
+            "classes_count": num_diseases,
+            "source_type": "Synthetic Clinical Phenotypic Mapping with Biological Variance Noise"
+        },
+        "evaluation_metrics": {
+            "test_accuracy": round(float(acc) * 100, 2),
+            "cv_accuracy_mean": round(float(cv_scores.mean()) * 100, 2),
+            "cv_accuracy_std": round(float(cv_scores.std()) * 100, 2),
+            "macro_precision": round(float(clf_report["macro avg"]["precision"]) * 100, 2),
+            "macro_recall": round(float(clf_report["macro avg"]["recall"]) * 100, 2),
+            "macro_f1": round(float(clf_report["macro avg"]["f1-score"]) * 100, 2)
+        },
+        "top_features_importance": top_features,
+        "class_wise_metrics": class_metrics,
+        "confusion_matrix": {
+            "classes": classes_list,
+            "matrix": cm.tolist()
+        },
         "symptoms": SYMPTOMS,
-        "diseases": list(DISEASE_PROFILES.keys()),
-        "disease_profiles": DISEASE_PROFILES
+        "diseases": classes_list,
+        "disease_profiles": DISEASE_PROFILES,
+        "clinical_safety_notice": "HealthPulse AI is an auxiliary educational decision support system. It does not replace registered physician examination or diagnostic laboratory tests."
     }
 
     metadata_path = os.path.join(script_dir, "model_metadata.json")
     with open(metadata_path, "w", encoding="utf-8") as f:
         json.dump(metadata, f, indent=2)
-    print(f"Metadata exported to: {metadata_path}")
 
-    # Also copy metadata to backend/data for fast native Node.js access & resilience
+    # Sync to backend/data
     backend_data_dir = os.path.join(script_dir, "..", "backend", "data")
     os.makedirs(backend_data_dir, exist_ok=True)
     backend_metadata_path = os.path.join(backend_data_dir, "model_metadata.json")
     with open(backend_metadata_path, "w", encoding="utf-8") as f:
         json.dump(metadata, f, indent=2)
-    print(f"Metadata synced to backend at: {backend_metadata_path}")
 
-    print("\nTraining completed successfully! Ready for inference.")
+    print(f"Validation metadata exported to: {backend_metadata_path}")
+    print("\nTraining and validation pipeline completed successfully!")
 
 if __name__ == "__main__":
     train_and_export()

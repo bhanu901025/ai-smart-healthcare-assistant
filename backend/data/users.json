@@ -7,10 +7,12 @@
     "role": "patient",
     "age": 34,
     "gender": "Male",
-    "phone": "+1 (555) 234-8901",
+    "phone": "+91 98765 43210",
     "bloodGroup": "O+",
     "allergies": "Penicillin, Peanuts",
-    "emergencyContact": "Sarah Wright (+1 555-902-1144)",
+    "emergencyContact": "Sarah Wright (+91 98765 11223)",
+    "consentGiven": true,
+    "consentTimestamp": "2026-10-16T12:51:48.665Z",
     "healthScore": 88,
     "vitals": {
       "bloodPressure": "120/80 mmHg",
@@ -28,8 +30,18 @@
     "role": "doctor",
     "specialty": "Pulmonologist",
     "hospital": "Metro Heart & Lung Institute",
-    "licenseNo": "MED-NY-89412",
+    "licenseNo": "MCI-PULM-89412",
     "experience": 14,
     "rating": 4.9
+  },
+  {
+    "id": "usr-03",
+    "name": "Dr. Ramesh Rao",
+    "email": "admin@healthpulse.ai",
+    "password": "admin123",
+    "role": "admin",
+    "title": "Chief Medical Information Officer",
+    "hospital": "HealthPulse Central Administration",
+    "licenseNo": "ADMIN-SYS-001"
   }
 ]

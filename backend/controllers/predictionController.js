@@ -2,10 +2,12 @@
  * Prediction Controller
  * Coordinates with the Python ML Microservice (port 5001) for Random Forest inference,
  * with a resilient built-in Bayesian/Jaccard clinical matcher fallback.
+ * Automatically logs prediction events to the tamper-evident audit log.
  */
 
 const fs = require('fs');
 const path = require('path');
+const { logAuditEvent } = require('./auditController');
 
 const METADATA_PATH = path.join(__dirname, '..', 'data', 'model_metadata.json');
 let cachedMetadata = null;
@@ -61,62 +63,60 @@ function runIntelligentFallback(userSymptoms) {
       scoredCandidates.push({
         disease,
         score: weightedScore,
-        ratio: matchRatio,
-        profile,
-        matchedCount: totalMatches,
-        coreMatches
+        confidence: Math.min(Math.round(matchRatio * 96 + 3), 98),
+        specialist: profile.specialist,
+        severity: profile.severity,
+        urgency_score: profile.urgency_score,
+        precautions: profile.precautions || [],
+        diet: profile.diet || { recommended: [], avoid: [] },
+        matchedSymptoms: [...coreSymptoms, ...optionalSymptoms].filter(s => inputSet.has(s))
       });
     }
   }
 
+  scoredCandidates.sort((a, b) => b.score - a.score || b.confidence - a.confidence);
+
   if (scoredCandidates.length === 0) {
     return {
       success: false,
-      message: 'No matching disease profiles found for the provided symptoms. Please review selected symptoms or consult a general physician.'
+      message: 'No clinical match found. Please verify the selected symptoms or speak with a general physician.'
     };
   }
 
-  // Sort descending by score then ratio
-  scoredCandidates.sort((a, b) => b.score !== a.score ? b.score - a.score : b.ratio - a.ratio);
-
-  const best = scoredCandidates[0];
-  const totalScoreSum = scoredCandidates.slice(0, 4).reduce((sum, item) => sum + item.score, 0);
-
-  // Confidence calculation
-  const rawConfidence = totalScoreSum > 0 ? (best.score / totalScoreSum) * 100 : 75;
-  const confidence = Math.min(Math.max(Math.round(rawConfidence * 10) / 10, 68.5), 98.4);
-
-  // Differential diagnoses
-  const differentialDiagnoses = scoredCandidates.slice(0, 3).map(item => ({
-    disease: item.disease,
-    probability: Math.min(Math.max(Math.round((item.score / totalScoreSum) * 100 * 10) / 10, 5.0), 98.4)
+  const primary = scoredCandidates[0];
+  const alternatives = scoredCandidates.slice(1, 4).map(c => ({
+    disease: c.disease,
+    confidence: Math.round(c.confidence * 0.75),
+    specialist: c.specialist
   }));
 
   return {
     success: true,
-    predicted_disease: best.disease,
-    confidence: confidence,
-    severity: best.profile.severity,
-    urgency_score: best.profile.urgency_score,
-    recommended_specialist: best.profile.specialist,
-    precautions: best.profile.precautions,
-    diet: best.profile.diet,
-    differential_diagnoses: differentialDiagnoses,
-    matched_symptoms: normalizedInput,
-    engine: 'Hybrid Bayesian Rule-Enhanced Inference Engine'
+    predicted_disease: primary.disease,
+    confidence: primary.confidence,
+    specialist: primary.specialist,
+    severity: primary.severity,
+    urgency_score: primary.urgency_score,
+    precautions: primary.precautions,
+    diet: primary.diet,
+    alternative_diagnoses: alternatives,
+    matched_symptoms: primary.matchedSymptoms,
+    total_symptoms_evaluated: normalizedInput.length,
+    engine: 'Clinical Weighted Bayesian Matcher (Node.js Fallback Engine)'
   };
 }
 
-/**
- * Predict Disease Controller
- */
 exports.predictDisease = async (req, res) => {
   try {
     const { symptoms } = req.body;
+    const callerId = req.headers['x-user-id'] || 'usr-01';
+    const callerRole = req.headers['x-user-role'] || 'patient';
+    const callerName = req.headers['x-user-name'] || 'Alexander Wright';
+    const ipAddress = req.ip || req.headers['x-forwarded-for'] || '127.0.0.1';
 
     if (!symptoms || !Array.isArray(symptoms) || symptoms.length === 0) {
       return res.status(400).json({
-        success: false,
+        status: 'error',
         error: 'Please select at least 1-2 symptoms for clinical assessment.'
       });
     }
@@ -157,6 +157,17 @@ exports.predictDisease = async (req, res) => {
       }
       predictionResult = fallbackResult;
     }
+
+    logAuditEvent({
+      action: 'AI_PREDICTION_EXECUTED',
+      actorId: callerId,
+      actorName: callerName,
+      actorRole: callerRole,
+      resource: '/api/predict',
+      status: 'SUCCESS',
+      details: `Symptoms: [${symptoms.slice(0, 4).join(', ')}${symptoms.length > 4 ? '...' : ''}] → Predicted: ${predictionResult.predicted_disease} (${predictionResult.confidence}%)`,
+      ipAddress
+    });
 
     return res.json({
       status: 'success',
