@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js",
-    "test": "node test/api.test.js"
+    "test": "node test/api.test.js",
+    "verify": "node test/system_verification.js"
   },
   "keywords": [
     "healthcare",
